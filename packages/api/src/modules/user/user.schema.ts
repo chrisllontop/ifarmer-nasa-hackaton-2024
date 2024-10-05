@@ -1,9 +1,10 @@
-import { Schema, model } from 'mongoose';
+import { Model, Schema, model } from 'mongoose';
 
-export interface IUser extends Document {
+interface IUser extends Document {
   username: string;
   email: string;
   password: string;
+  isValidPassword:(password: string) => Promise<boolean>
 }
 
 const schema = new Schema<IUser>(
@@ -20,8 +21,7 @@ const schema = new Schema<IUser>(
     },
     password: {
       type: String,
-      required: true,
-      select: false
+      required: true
     },
   },
   {
@@ -29,12 +29,14 @@ const schema = new Schema<IUser>(
   }
 );
 
-schema.pre('save', function(next) {
-  Bun.password.hash(this.password)
-    .then(hash => {
-        this.password = hash;
-        next()
-    })
+schema.pre('save', async function(next) {
+  const hash = await Bun.password.hash(this.password)
+  this.password = hash;
+  next()
+})
+
+schema.method('isValidPassword', async function(password: string): Promise<boolean>{
+  return await Bun.password.verify(password, this.password)
 })
 
 export default model<IUser>('user', schema);

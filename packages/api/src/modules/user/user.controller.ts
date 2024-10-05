@@ -1,10 +1,13 @@
 import { Elysia, type Context } from 'elysia';
 import User from './user.schema';
 import { createUserDto, updateUserDto } from './user.dto';
+import { authenticator } from '../auth/auth.validator';
 
 export const usersController = (app: Elysia) =>
-  app.get('/', async (context: Context) => {
-    return await User.find();
+  app
+  .use(authenticator)
+  .get('/', async ({ user }) => {
+    return user;
   })
   .guard( createUserDto, (app) =>
     app.post('/', async ({ body }) => {
