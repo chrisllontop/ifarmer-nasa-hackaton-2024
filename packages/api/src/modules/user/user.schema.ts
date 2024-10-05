@@ -35,7 +35,6 @@ schema.pre('save', async function(next) {
 })
 
 schema.method('isValidPassword', async function(password: string): Promise<boolean>{
-  console.log(password, this.password)
   return await Bun.password.verify(password, this.password)
 })
 

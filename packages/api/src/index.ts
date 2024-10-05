@@ -5,6 +5,7 @@ import './database/database.setup';
 
 import { usersController } from './modules/user/user.controller';
 import { authController } from './modules/auth/auth.controller';
+import { weatherController } from './modules/weather/weather.controller';
 
 const PORT = process.env.PORT || 3000;
 
@@ -13,12 +14,9 @@ const app = new Elysia();
 app
   .use(swagger())
   .group('/api', (app) =>
-    app.group('/user', (app) =>
-      app.use(usersController)
-    )
-    .group('/auth', (app) =>
-      app.use(authController)
-    )
+    app.use(usersController)
+    .use(authController)
+    .use(weatherController)
     .get('/', 'Hello Elysia', { response: t.String({ description: 'sample description' }) })
   )
   .listen(PORT, () => {
