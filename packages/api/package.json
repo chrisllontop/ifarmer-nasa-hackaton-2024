@@ -3,13 +3,17 @@
   "module": "index.ts",
   "version": "0.1.0",
   "type": "module",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "bun run src/index.ts"
+    "dev": "bun run --watch src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "bun-create": {
+    "start": "bun run src/index.ts"
   }
 }
