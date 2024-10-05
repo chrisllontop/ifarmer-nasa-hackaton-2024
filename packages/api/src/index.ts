@@ -8,9 +8,7 @@ import { authController } from './modules/auth/auth.controller';
 
 const PORT = process.env.PORT || 3000;
 
-const app = new Elysia();
-
-app
+const app = new Elysia()
   .use(swagger())
   .group('/api', (app) =>
     app.group('/user', (app) =>
@@ -24,3 +22,5 @@ app
   .listen(PORT, () => {
     console.log(`🦊 Elysia is running at ${app.server?.hostname}:${PORT}`);
   });
+
+export type App = typeof app;
