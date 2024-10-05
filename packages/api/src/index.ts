@@ -1,4 +1,4 @@
-import { Elysia, t } from 'elysia';
+import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger'
 
 import './database/database.setup';
@@ -9,14 +9,11 @@ import { weatherController } from './modules/weather/weather.controller';
 
 const PORT = process.env.PORT || 3000;
 
-const app = new Elysia()
+const app = new Elysia({prefix: '/api'})
   .use(swagger())
-  .group('/api', (app) =>
-    app.use(usersController)
-    .use(authController)
-    .use(weatherController)
-    .get('/', 'Hello Elysia', { response: t.String({ description: 'sample description' }) })
-  )
+  .use(usersController)
+  .use(authController)
+  .use(weatherController)
   .listen(PORT, (app) => {
     console.log(`🦊 Elysia is running at ${app?.hostname}:${PORT}`);
   });
