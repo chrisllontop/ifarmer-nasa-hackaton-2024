@@ -4,6 +4,7 @@ import { swagger } from '@elysiajs/swagger'
 import './database/database.setup';
 
 import { usersController } from './modules/user/user.controller';
+import { authController } from './modules/auth/auth.controller';
 
 const PORT = process.env.PORT || 3000;
 
@@ -14,6 +15,9 @@ app
   .group('/api', (app) =>
     app.group('/user', (app) =>
       app.use(usersController)
+    )
+    .group('/auth', (app) =>
+      app.use(authController)
     )
     .get('/', 'Hello Elysia', { response: t.String({ description: 'sample description' }) })
   )
