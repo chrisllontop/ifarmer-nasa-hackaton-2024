@@ -6,6 +6,7 @@ interface IUser extends Document {
   password: string;
   isValidPassword:(password: string) => Promise<boolean>
 }
+
 const schema = new Schema<IUser>(
   {
     username: {
