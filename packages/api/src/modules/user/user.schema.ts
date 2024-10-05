@@ -29,4 +29,12 @@ const schema = new Schema<IUser>(
   }
 );
 
+schema.pre('save', function(next) {
+  Bun.password.hash(this.password)
+    .then(hash => {
+        this.password = hash;
+        next()
+    })
+})
+
 export default model<IUser>('user', schema);
