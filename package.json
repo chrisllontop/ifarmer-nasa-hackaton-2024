@@ -1,6 +1,9 @@
 {
   "name": "ifarmer-nasa-hackaton-2024",
   "private": true,
+  "scripts": {
+    "dev": "bun --filter '*' dev"
+  },
   "workspaces": [
     "packages/*"
   ]
