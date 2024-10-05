@@ -1,0 +1,7 @@
+{
+  "name": "ifarmer-nasa-hackaton-2024",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
