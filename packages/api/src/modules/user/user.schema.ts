@@ -6,6 +6,7 @@ interface IUser extends Document {
   password: string;
   isValidPassword:(password: string) => Promise<boolean>
 }
+
 const schema = new Schema<IUser>(
   {
     username: {
@@ -35,7 +36,6 @@ schema.pre('save', async function(next) {
 })
 
 schema.method('isValidPassword', async function(password: string): Promise<boolean>{
-  console.log(password, this.password)
   return await Bun.password.verify(password, this.password)
 })
 
