@@ -1,5 +1,5 @@
 import { Avatar, Card, CardContent, Typography } from "@mui/material";
-import styles from "./CardImage.module.css";
+import styles from "./Card.module.css";
 
 interface CardImageProps {
 	description: string;

@@ -1,10 +1,14 @@
 import { Box, Button, Typography } from "@mui/material";
-import { CardImage } from "../components/cardImage/CardImage.tsx";
+import { useNavigate } from "react-router-dom";
+import { CardImage } from "../components/cards/CardImage.tsx";
+import { paths } from "../routes/paths.ts";
 
 export const Onboarding = () => {
+	const navigate = useNavigate();
+
 	return (
 		<Box>
-			<Box sx={{ maxWidth: "95%", margin: "0 auto", height: "85vh" }}>
+			<Box sx={{ width: "350px", margin: "0 auto", height: "85vh" }}>
 				<Typography
 					variant="h5"
 					component="h1"
@@ -19,7 +23,8 @@ export const Onboarding = () => {
 			</Box>
 			<Button
 				variant="contained"
-				sx={{ maxWidth: "95%", margin: "0 auto", width: "100%" }}
+				sx={{ width: "350px", margin: "0 auto" }}
+				onClick={() => navigate(paths.questions)}
 			>
 				Let's start
 			</Button>
