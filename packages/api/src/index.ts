@@ -12,7 +12,26 @@ import { weatherController } from "./modules/weather/weather.controller";
 const PORT = process.env.PORT || 3000;
 
 const app = new Elysia()
-	.use(swagger())
+	.use(
+		swagger({
+			documentation: {
+				info: {
+					title: "iFarmer API",
+					version: "1.0.0",
+					description: "API for the Elysia project",
+				},
+				components: {
+					securitySchemes: {
+						BearerAuth: {
+							type: "http",
+							scheme: "bearer",
+							bearerFormat: "JWT",
+						},
+					},
+				},
+			},
+		}),
+	)
 	.use(cors())
 	.group("/api", (app) =>
 		app
