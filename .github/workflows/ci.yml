@@ -13,23 +13,15 @@ jobs:
       - name: 🛠️ Checkout code
         uses: actions/checkout@v3
 
-      - name: 📥 Install Bun
-        run: |
-          curl -fsSL https://bun.sh/install | bash
-          echo 'export BUN_INSTALL="$HOME/.bun"' >> $GITHUB_ENV
-          echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >> $GITHUB_ENV
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
       - name: 📦 Install dependencies with bun
         run: bun install --frozen-lockfile
-        env:
-          BUN_INSTALL: ${{ env.BUN_INSTALL }}
-          PATH: ${{ env.PATH }}
 
       - name: 🔍 Run linter with bun
         run: bun lint
-        env:
-          BUN_INSTALL: ${{ env.BUN_INSTALL }}
-          PATH: ${{ env.PATH }}
 
       - name: 💾 Commit linter fixes
         uses: stefanzweifel/git-auto-commit-action@v4
