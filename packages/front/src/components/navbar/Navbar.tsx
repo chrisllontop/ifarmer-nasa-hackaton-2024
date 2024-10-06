@@ -7,6 +7,7 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import cropLogo from "../../assets/psychiatry.svg";
+import { paths } from "../../routes/paths.ts";
 
 function Navbar() {
 	const [value, setValue] = React.useState(0);
@@ -27,7 +28,7 @@ function Navbar() {
 				}}
 			>
 				<BottomNavigationAction
-					value="/search"
+					value={paths.onboarding}
 					label="Search"
 					icon={<SearchIcon />}
 				/>

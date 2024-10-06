@@ -2,6 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {
 	Box,
 	Button,
+	CircularProgress,
 	Container,
 	CssBaseline,
 	Fab,
@@ -11,6 +12,7 @@ import { GoogleMap, Marker } from "@react-google-maps/api";
 import { useRef, useState } from "react";
 import type React from "react";
 import { useProgressStepper } from "../../context/ProgressBar.tsx";
+import { useAddCrop } from "../../hooks/use-crops.tsx";
 
 const mapContainerStyle = {
 	width: "100%",
@@ -31,6 +33,9 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
 	const [perimeter, setPerimeter] = useState<number | null>(null);
 
 	const { setActiveStep } = useProgressStepper();
+
+	const { addCrop } = useAddCrop();
+	const { isSuccess, isPending } = addCrop;
 
 	const handleLoadMap = (mapInstance: google.maps.Map) => {
 		setMap(mapInstance);
@@ -106,9 +111,15 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
 		setDrawingMode(true); // Se activa el modo de dibujo
 	};
 
-	const submitCropInformation = () => {
-		console.log({ area, center });
-		setActiveStep(3);
+	const submitCropInformation = async () => {
+		await addCrop.mutateAsync({
+			area: area ? area.toString() : "",
+			coordinates: {
+				lat: center.lat(),
+				lon: center.lng(),
+			},
+		});
+		isSuccess && setActiveStep(3);
 	};
 
 	return (
@@ -195,8 +206,19 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
 								variant="contained"
 								onClick={submitCropInformation}
 								sx={{ width: "100%", marginTop: "20px" }}
+								disabled={isPending}
 							>
-								save crop area
+								{isPending ? (
+									<span style={{ display: "flex", alignItems: "center" }}>
+										<CircularProgress
+											size={18}
+											sx={{ color: "white", mr: 2 }}
+										/>
+										Loading
+									</span>
+								) : (
+									"save crop area"
+								)}
 							</Button>
 						</div>
 					) : (

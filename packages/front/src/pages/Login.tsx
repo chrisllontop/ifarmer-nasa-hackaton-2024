@@ -7,10 +7,11 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import React, { useState, FormEvent, useEffect } from "react";
+import { useEffect, useState } from "react";
+import type { FormEvent } from "react";
 import { useLogin } from "../hooks/use-auth.ts";
 
-const Login: React.FC = () => {
+const Login = () => {
 	const [email, setEmail] = useState<string>("nasa@nasa.com");
 	const [password, setPassword] = useState<string>("1234");
 	const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
