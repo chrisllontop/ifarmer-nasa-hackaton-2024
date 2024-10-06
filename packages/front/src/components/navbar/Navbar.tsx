@@ -6,7 +6,7 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
-import viteLogo from "../../../assets/psychiatry.svg";
+import cropLogo from "../../assets/psychiatry.svg";
 
 function Navbar() {
 	const [value, setValue] = React.useState(0);
@@ -34,7 +34,7 @@ function Navbar() {
 				<BottomNavigationAction
 					value="/crops"
 					label="Crops"
-					icon={<img src={viteLogo} alt="Vite logo" />}
+					icon={<img src={cropLogo} alt="crop" />}
 				/>
 				<BottomNavigationAction
 					value="/alerts"

@@ -1,5 +1,6 @@
-import { Elysia, t } from 'elysia';
-import { swagger } from '@elysiajs/swagger'
+import { Elysia } from 'elysia';
+import { swagger } from '@elysiajs/swagger';
+import { cors } from '@elysiajs/cors';
 
 import './database/database.setup';
 
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 const app = new Elysia()
   .use(swagger())
+  .use(cors())
   .group('/api', (app) =>
     app.use(usersController)
     .use(authController)
