@@ -1,6 +1,7 @@
 import {
 	Box,
 	Button,
+	CircularProgress,
 	FormControl,
 	FormHelperText,
 	TextField,
@@ -9,7 +10,10 @@ import {
 import type { SelectChangeEvent } from "@mui/material";
 import type { DateTime } from "luxon";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useProgressStepper } from "../../context/ProgressBar.tsx";
+import { useUpdateCrop } from "../../hooks/use-crops.tsx";
+import { paths } from "../../routes/paths.ts";
 import { BasicDatePicker } from "../DatePicker.tsx";
 import { MultipleOptions } from "../MultipleOptions.tsx";
 import { SelectAndInput } from "../SelectAndInput.tsx";
@@ -54,7 +58,10 @@ export const Questions = () => {
 	const [crop, setCrop] = useState<string>("");
 	const [isQuestionAnswered, setIsQuestionAnswered] = useState<boolean>(false);
 
+	const navigate = useNavigate();
 	const { activeStep, setActiveStep } = useProgressStepper();
+	const { updateCrop } = useUpdateCrop();
+	const { isPending, isSuccess } = updateCrop;
 
 	const questionIndex = activeStep - 3;
 
@@ -91,29 +98,37 @@ export const Questions = () => {
 	};
 
 	const handleDateChange = (date: DateTime | null) => {
-		setSelectedDate(date);
+		date && setSelectedDate(date);
 	};
 
 	const handleIrrigationSystem = (systemTitle: string) => {
 		setIrrigationSystem(systemTitle);
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		if (questionIndex === questions.length - 1) {
 			const body = {
-				waterSource: firstQuestionOptions
+				waterSources: firstQuestionOptions
 					.filter((option) => option.checked)
 					.map((option) => option.label),
 				waterAmount: `${inputValue} ${selectValue}`,
-				lastIrrigationDate: selectedDate?.toISO(),
+				lastIrrigationDate: selectedDate ? selectedDate.toISO() : "",
 				irrigationSystem,
 				cropType: crop,
 			};
-			console.log(body);
+			// @ts-ignore
+			await updateCrop.mutateAsync(body);
 		} else {
 			setActiveStep(activeStep + 1);
 		}
 	};
+
+	useEffect(() => {
+		if (isSuccess) {
+			navigate(paths.crops);
+			localStorage.removeItem("crop_id");
+		}
+	}, [isSuccess]);
 
 	const questions = [
 		{
@@ -197,11 +212,18 @@ export const Questions = () => {
 				onClick={handleSubmit}
 				variant="contained"
 				fullWidth
-				disabled={!isQuestionAnswered}
+				disabled={!isQuestionAnswered || isPending}
 			>
-				{questionIndex === questions.length - 1
-					? "View my water report"
-					: "Continue"}
+				{isPending ? (
+					<span style={{ display: "flex", alignItems: "center" }}>
+						<CircularProgress size={18} sx={{ color: "white", mr: 2 }} />
+						Loading
+					</span>
+				) : questionIndex === questions.length - 1 ? (
+					"View my water report"
+				) : (
+					"Continue"
+				)}
 			</Button>
 		</Box>
 	);

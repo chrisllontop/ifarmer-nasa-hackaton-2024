@@ -31,6 +31,7 @@ function Navbar() {
 					value={paths.onboarding}
 					label="Search"
 					icon={<SearchIcon />}
+					onClick={() => localStorage.removeItem("crop_id")}
 				/>
 				<BottomNavigationAction
 					value="/crops"

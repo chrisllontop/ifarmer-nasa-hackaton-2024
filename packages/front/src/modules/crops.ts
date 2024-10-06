@@ -1,17 +1,21 @@
 import client from "../utils/api.ts";
 
-interface LocationBody {
+interface AddCropBody {
 	area: string;
-	cropType?: string;
-	geoLocation?: string;
-	daysSinceLastIrrigation?: string;
 	coordinates: {
 		lat: number;
 		lon: number;
 	};
 }
+export interface UpdateCropBody {
+	cropType: string;
+	waterSources: string[];
+	waterAmount: string;
+	irrigationSystem: string;
+	lastIrrigationDate: string;
+}
 
-export const addCrop = async (body: LocationBody) => {
+export const addCrop = async (body: AddCropBody) => {
 	const authToken = localStorage.getItem("access_token");
 
 	const { data, error } = await client.api.crops.post(body, {
@@ -23,10 +27,12 @@ export const addCrop = async (body: LocationBody) => {
 	throw error.value;
 };
 
-export const updateCrop = async (body: LocationBody) => {
+export const updateCrop = async (body: UpdateCropBody) => {
 	const authToken = localStorage.getItem("access_token");
+	const cropId = localStorage.getItem("crop_id");
 
-	const { data, error } = await client.api.crops.put(body, {
+	// @ts-ignore
+	const { data, error } = await client.api.crops({ id: cropId }).patch(body, {
 		headers: {
 			Authorization: `Bearer ${authToken}`,
 		},

@@ -9,7 +9,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { GoogleMap, Marker } from "@react-google-maps/api";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type React from "react";
 import { useProgressStepper } from "../../context/ProgressBar.tsx";
 import { useAddCrop } from "../../hooks/use-crops.tsx";
@@ -119,8 +119,11 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
 				lon: center.lng(),
 			},
 		});
-		isSuccess && setActiveStep(3);
 	};
+
+	useEffect(() => {
+		isSuccess && setActiveStep(3);
+	}, [isSuccess]);
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
