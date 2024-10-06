@@ -1,5 +1,5 @@
-import type { Coordinates, DateRange } from '../../../config/common.interfaces';
-import { FORMATS, PARAMS, TEMP_UNITS, type WheaterInit } from './meteomatics.schema';
+import { FORMATS, type Coordinates, type DateRange, type TimeLocation } from '../../../config/common.interfaces';
+import { PARAMS, TEMP_UNITS } from './meteomatics.schema';
 import dayjs from 'dayjs';
 
 export class MeteomaticsService {
@@ -18,7 +18,7 @@ export class MeteomaticsService {
    * Initializes the Meteomatics service by setting the API key.
    * Throws an error if the API key is missing.
    */
-  constructor({ coordinates, dates }: WheaterInit) {
+  constructor({ coordinates, dates }: TimeLocation) {
     this.coodinates = coordinates;
     this.dates = dates;
     this.username = process.env.METEO_USERNAME
