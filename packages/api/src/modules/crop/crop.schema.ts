@@ -24,7 +24,7 @@ const cropSchema = new Schema<CropDtoType>(
 			type: String,
 			required: false,
 		},
-		daysSinceLastIrrigation: {
+		lastIrrigationDate: {
 			type: String,
 			required: false,
 		},

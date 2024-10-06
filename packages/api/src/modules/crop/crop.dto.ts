@@ -6,7 +6,7 @@ export const CropDto = t.Object({
 	area: t.String(),
 	cropType: t.Optional(t.String()),
 	geoLocation: t.Optional(t.String()),
-	daysSinceLastIrrigation: t.Optional(t.String()),
+	lastIrrigationDate: t.Optional(t.String()),
 	coordinates: t.Object({
 		lat: t.Number(),
 		lon: t.Number(),
