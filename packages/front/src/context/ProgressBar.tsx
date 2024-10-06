@@ -22,7 +22,9 @@ export const useProgressStepper = () => {
 export const ProgressStepperProvider = ({
 	children,
 }: { children: ReactNode }) => {
-	const [activeStep, setActiveStep] = useState<number>(1);
+	const [activeStep, setActiveStep] = useState<number>(() =>
+		localStorage.getItem("crop_id") ? 3 : 1,
+	);
 
 	return (
 		<ProgressStepperContext.Provider value={{ activeStep, setActiveStep }}>

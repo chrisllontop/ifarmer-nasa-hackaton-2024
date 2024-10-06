@@ -10,7 +10,3 @@ export const login = async (body: LoginBody) => {
 	if (data) return data;
 	throw error.value;
 };
-//
-// export const user = async () => {
-// 	return await client.get("/auth/user");
-// };
