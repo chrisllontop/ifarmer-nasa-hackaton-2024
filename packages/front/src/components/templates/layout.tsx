@@ -10,6 +10,10 @@ interface LayoutProps {
 const libraries = ['places', 'geometry'];
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  console.log('holiii');
+  
+  console.log('variable',import.meta.env.VITE_GOOGLE_MAPS_API_KEY );
+  
   return (
     <Box
       sx={{ 
@@ -26,7 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           paddingBottom: '56px'
         }}
       >
-        <LoadScript googleMapsApiKey="AIzaSyDH6v6GHzcqbNwXN_rRTHww1uctpw6OM0Q" 
+        <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} 
           libraries={libraries}>
           {children}
         </LoadScript>

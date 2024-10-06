@@ -8,18 +8,17 @@ const Settings: React.FC = () => {
 	const [steps, setSteps] = useState(1);
 
 	const handleLocationChange = (location: google.maps.LatLng) => {
-		console.log("holi", location);
 		setCenter(location);
 		setSteps(2)
 	};
 
 	return (
 		<Box
-		sx={{ 
-		  display: 'flex', 
-		  flexDirection: 'column', 
-		  height: '100%'
-		}}
+			sx={{ 
+				display: 'flex', 
+				flexDirection: 'column', 
+				height: '100%'
+			}}
 	  >
 		<Container
 		  sx={{ 
@@ -32,7 +31,9 @@ const Settings: React.FC = () => {
 					<GoogleMapWithSearch onLocationChange={handleLocationChange} />
 				) : null
 			}
-			{ steps === 2  && center && <GoogleMapWithDrawing center={center} />}
+			{ steps === 2  && center ? (
+				<GoogleMapWithDrawing center={center} />
+				) : null}
 		</Container>
 		</Box>
 	);

@@ -61,6 +61,7 @@ const GoogleMapWithMarkerControl: React.FC<GoogleMapWithMarkerControlProps> = ({
       lat: event.latLng!.lat(),
       lng: event.latLng!.lng(),
     };    
+    setLiteralLocation(event.latLng)
     setSelectedPosition(newPosition);
   };
 
