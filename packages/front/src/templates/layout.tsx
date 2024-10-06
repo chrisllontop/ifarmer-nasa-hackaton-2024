@@ -7,7 +7,7 @@ interface LayoutProps {
 	children: React.ReactNode;
 }
 
-const libraries = ['places', 'geometry'];
+const libraries = ["places", "geometry"];
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
@@ -20,10 +20,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 			}}
 		>
 			<Box component="main" sx={{ flexGrow: 1 }}>
-			<LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} 
-				libraries={libraries}>
-				{children}
-			</LoadScript>
+				<LoadScript
+					googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+					libraries={libraries}
+				>
+					{children}
+				</LoadScript>
 			</Box>
 			<Navbar />
 		</Box>
