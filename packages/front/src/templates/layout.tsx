@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import Navbar from "../molecules/Navbar";
+import Navbar from "../components/navbar/Navbar";
 
 interface LayoutProps {
 	children: React.ReactNode;
