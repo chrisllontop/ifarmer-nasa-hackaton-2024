@@ -9,9 +9,9 @@ export const useLogin = () => {
 	return useMutation({
 		mutationFn: login,
 		onSuccess: (data) => {
-			if (data?.token) {
-				localStorage.setItem("access_token", JSON.stringify(data.token));
-				navigate(paths.crops);
+			if (data?.data?.token) {
+				localStorage.setItem("access_token", JSON.stringify(data.data.token));
+				navigate(paths.onboarding);
 			}
 		},
 	});

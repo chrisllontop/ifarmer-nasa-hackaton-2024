@@ -3,8 +3,8 @@ import React, { useState, FormEvent } from "react";
 import { useLogin } from "../hooks/use-auth.ts";
 
 const Login: React.FC = () => {
-	const [email, setEmail] = useState<string>("test@gmail.com");
-	const [password, setPassword] = useState<string>("password");
+	const [email, setEmail] = useState<string>("nasa@nasa.com");
+	const [password, setPassword] = useState<string>("1234");
 
 	const login = useLogin();
 	const { mutate, error: loginError, isPending } = login;

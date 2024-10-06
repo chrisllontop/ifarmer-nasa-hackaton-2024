@@ -3,6 +3,7 @@ import AuthGuard from "../hooks/auth-guard.tsx";
 import Alerts from "../pages/Alerts.tsx";
 import Home from "../pages/Home.tsx";
 import Login from "../pages/Login.tsx";
+import { Onboarding } from "../pages/Onboarding.tsx";
 import Search from "../pages/Search.tsx";
 import Layout from "../templates/layout.tsx";
 import { paths } from "./paths";
@@ -10,11 +11,19 @@ import { paths } from "./paths";
 export const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <Navigate to={paths.crops} replace />,
+		element: <Navigate to={paths.onboarding} replace />,
 	},
 	{
 		path: paths.login,
 		element: <Login />,
+	},
+	{
+		path: paths.onboarding,
+		element: (
+			<AuthGuard>
+				<Onboarding />
+			</AuthGuard>
+		),
 	},
 	{
 		path: paths.crops,
