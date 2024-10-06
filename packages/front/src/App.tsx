@@ -13,6 +13,7 @@ import "@fontsource/roboto/700.css";
 import "./App.css";
 
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { Onboarding } from "./pages/Onboarding.tsx";
 
 const theme = createTheme({
 	palette: {
@@ -54,6 +55,14 @@ function App() {
 								<Layout>
 									<Search />
 								</Layout>
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/onboarding"
+						element={
+							<ProtectedRoute isAuthenticated>
+								<Onboarding />
 							</ProtectedRoute>
 						}
 					/>
