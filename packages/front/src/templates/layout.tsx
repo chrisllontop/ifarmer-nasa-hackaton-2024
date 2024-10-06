@@ -18,7 +18,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isWrapper = false }) => {
 			}}
 		>
 			<Box component="main" sx={{ flexGrow: 1 }}>
-					{children}
+				{children}
 			</Box>
 			<Navbar />
 		</Box>

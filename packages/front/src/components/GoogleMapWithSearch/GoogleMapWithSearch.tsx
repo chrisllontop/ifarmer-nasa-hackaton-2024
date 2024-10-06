@@ -81,7 +81,7 @@ const GoogleMapWithMarkerControl: React.FC<GoogleMapWithMarkerControlProps> = ({
 						lat: position.coords.latitude,
 						lng: position.coords.longitude,
 					};
-					setSelectedPosition(userLatLng); 
+					setSelectedPosition(userLatLng);
 					map?.panTo(userLatLng);
 				},
 				() => {

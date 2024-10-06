@@ -28,7 +28,7 @@ function App() {
 					googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
 					libraries={libraries}
 				>
-				<RouterProvider router={router} />
+					<RouterProvider router={router} />
 				</LoadScript>
 			</ThemeProvider>
 		</QueryClientProvider>
