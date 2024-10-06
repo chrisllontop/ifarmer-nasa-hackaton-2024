@@ -3,16 +3,17 @@ import {
 	Button,
 	FormControl,
 	FormHelperText,
-	SelectChangeEvent,
 	TextField,
 	Typography,
 } from "@mui/material";
-import { DateTime } from "luxon";
-import React, { useState } from "react";
-import { BasicDatePicker } from "../components/questions/DatePicker.tsx";
-import { IrrigationSystem } from "../components/questions/IrrigationSystem.tsx";
-import { MultipleOptions } from "../components/questions/MultipleOptions";
-import { SelectAndInput } from "../components/questions/SelectAndInput";
+import type { SelectChangeEvent } from "@mui/material";
+import type { DateTime } from "luxon";
+import { useState } from "react";
+import { useProgressStepper } from "../../context/ProgressBar.tsx";
+import { BasicDatePicker } from "../DatePicker.tsx";
+import { MultipleOptions } from "../MultipleOptions.tsx";
+import { SelectAndInput } from "../SelectAndInput.tsx";
+import { IrrigationSystem } from "./questions/IrrigationSystem.tsx";
 
 const inputContent = {
 	label: "Quantity",
@@ -43,15 +44,15 @@ const initialOptions = [
 	{ label: "I don’t have one yet", checked: false },
 ];
 
-export const OnboardingQuestions = () => {
-	const [questionIndex, setQuestionIndex] = useState(0);
+export const Questions = () => {
 	const [firstQuestionOptions, setFirstQuestionOptions] =
 		useState(initialOptions);
-
 	const [selectValue, setSelectValue] = useState<string>("");
 	const [inputValue, setInputValue] = useState<string>("");
 	const [selectedDate, setSelectedDate] = useState<DateTime | null>(null);
 	const [crop, setCrop] = useState<string>("");
+
+	const { activeStep, setActiveStep } = useProgressStepper();
 
 	const handleFirstQuestionChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
@@ -129,6 +130,7 @@ export const OnboardingQuestions = () => {
 			),
 		},
 	];
+	const questionIndex = activeStep - 3;
 
 	return (
 		<Box
@@ -139,21 +141,18 @@ export const OnboardingQuestions = () => {
 				gap: "12px",
 				width: "350px",
 				margin: "auto",
-				mt: 4,
+				mt: 5,
+				flex: 1,
 			}}
 		>
-			<Box sx={{ height: "85vh" }}>
+			<Box sx={{ flex: 0.8 }}>
 				<Typography component="h1" variant="h5" textAlign="left" sx={{ mb: 4 }}>
 					{questions[questionIndex].title}
 				</Typography>
 				<Box>{questions[questionIndex].component}</Box>
 			</Box>
 			<Button
-				onClick={() =>
-					setQuestionIndex((prevIndex) =>
-						Math.min(prevIndex + 1, questions.length - 1),
-					)
-				}
+				onClick={() => setActiveStep(activeStep + 1)}
 				variant="contained"
 				fullWidth
 			>

@@ -1,6 +1,6 @@
 import WaterIcon from "@mui/icons-material/Water";
-import sprinklerSVG from "../../assets/sprinkler.svg";
-import { CardIcon } from "../cards/CardIcon.tsx";
+import sprinklerSVG from "../../../assets/sprinkler.svg";
+import { CardIcon } from "../../cards/CardIcon.tsx";
 
 export const IrrigationSystem = () => {
 	const handleClick = () => {

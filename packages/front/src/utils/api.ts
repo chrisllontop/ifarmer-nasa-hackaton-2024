@@ -1,6 +1,8 @@
-import { treaty } from '@elysiajs/eden';
-import type { App } from 'ifarmer-api';
+import { treaty } from "@elysiajs/eden";
+import type { App } from "ifarmer-api";
 
-const client = treaty<App>('localhost:3000') // TODO Update with an env value
+const apiUrl = import.meta.env.VITE_API_URL ?? "localhost:3000";
+
+const client = treaty<App>(apiUrl);
 
 export default client;

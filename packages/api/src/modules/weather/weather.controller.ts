@@ -1,4 +1,4 @@
-import { Elysia } from 'elysia';
+import { Elysia } from "elysia";
 
 import { authenticator } from '../auth/auth.validator';
 import { MeteomaticsService } from '../providers/meteomatics/meteomatics.service';
