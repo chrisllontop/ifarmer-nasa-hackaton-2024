@@ -1,14 +1,14 @@
 // Define the structure for irrigation recommendation request
 export interface IrrigationInfo {
-  area_type: string;
-  plantation_type: string;
-  geo: string;
+	area_type: string;
+	plantation_type: string;
+	geo: string;
 }
 
 // Define the structure for irrigation recommendation response
 export interface IrrigationResponse {
-  method: string;
-  explanation: string;
+	method: string;
+	explanation: string;
 }
 
 // Define the structure for irrigation schedule request

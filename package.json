@@ -1,10 +1,9 @@
 {
-  "name": "ifarmer-nasa-hackaton-2024",
-  "private": true,
-  "scripts": {
-    "dev": "bun --filter '*' dev"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+	"name": "ifarmer-nasa-hackaton-2024",
+	"private": true,
+	"scripts": {
+		"dev": "bun --filter '*' dev",
+		"lint": "biome format --write"
+	},
+	"workspaces": ["packages/*"]
 }

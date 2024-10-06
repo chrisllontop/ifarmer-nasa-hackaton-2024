@@ -1,9 +1,9 @@
 export type DateRange = {
-  start: Date;
-  end: Date;
-}
+	start: Date;
+	end: Date;
+};
 
 export type Coordinates = {
-  lat: number
-  lon: number
-}
+	lat: number;
+	lon: number;
+};
