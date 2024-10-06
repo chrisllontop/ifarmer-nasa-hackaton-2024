@@ -1,3 +1,4 @@
+import AddIcon from "@mui/icons-material/Add";
 import {
 	Box,
 	Button,
@@ -9,9 +10,7 @@ import {
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import { useRef, useState } from "react";
 import type React from "react";
-import AddIcon from "@mui/icons-material/Add";
-import { useNavigate } from "react-router-dom";
-import { paths } from "../../routes/paths";
+import { useProgressStepper } from "../../context/ProgressBar.tsx";
 
 const mapContainerStyle = {
 	width: "100%",
@@ -31,7 +30,7 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
 	const polygonFeatureRef = useRef<google.maps.Polygon | null>(null);
 	const [perimeter, setPerimeter] = useState<number | null>(null);
 
-	const navigate = useNavigate();
+	const { setActiveStep } = useProgressStepper();
 
 	const handleLoadMap = (mapInstance: google.maps.Map) => {
 		setMap(mapInstance);
@@ -109,7 +108,7 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
 
 	const submitCropInformation = () => {
 		console.log({ area, center });
-		navigate(paths.questions);
+		setActiveStep(3);
 	};
 
 	return (

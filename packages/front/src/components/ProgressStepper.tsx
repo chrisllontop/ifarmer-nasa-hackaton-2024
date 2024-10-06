@@ -24,17 +24,32 @@ export const ProgressStepper = ({ steps }: ProgressStepperProps) => {
 				padding: 0,
 				justifyContent: "flex-start",
 				gap: "12px",
+				height: "48px",
 			}}
-			nextButton={""}
+			nextButton={
+				<Button
+					size="small"
+					disabled
+					sx={{ paddingRight: 0, color: grey["A400"] }}
+				>
+					STEP {activeStep}
+				</Button>
+			}
 			backButton={
 				<Button
 					size="small"
 					onClick={handleBack}
 					disabled={activeStep === 0}
-					sx={{ paddingLeft: 0, color: grey["A400"] }}
+					sx={{ paddingLeft: 0 }}
 				>
-					{activeStep > 2 ? <KeyboardArrowLeft /> : ""}
-					Paso {activeStep}
+					{activeStep >= 2 ? (
+						<>
+							<KeyboardArrowLeft />
+							<span>Back</span>
+						</>
+					) : (
+						""
+					)}
 				</Button>
 			}
 		/>

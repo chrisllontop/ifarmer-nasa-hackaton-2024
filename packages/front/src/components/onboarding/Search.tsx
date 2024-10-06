@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import GoogleMapWithSearch from "../components/GoogleMapWithSearch";
-import GoogleMapWithDrawing from "../components/GoogleMapWithDrawing";
 import { Box, Container } from "@mui/material";
+import { useState } from "react";
+import { useProgressStepper } from "../../context/ProgressBar.tsx";
+import GoogleMapWithDrawing from "../GoogleMapWithDrawing";
+import GoogleMapWithSearch from "../GoogleMapWithSearch";
 
-const Settings: React.FC = () => {
+const Settings = () => {
 	const [center, setCenter] = useState<google.maps.LatLng | null>(null);
-	const [steps, setSteps] = useState(1);
+
+	const { activeStep, setActiveStep } = useProgressStepper();
 
 	const handleLocationChange = (location: google.maps.LatLng) => {
 		setCenter(location);
-		setSteps(2);
+		setActiveStep(2);
 	};
 
 	return (
@@ -27,10 +29,10 @@ const Settings: React.FC = () => {
 					padding: 0,
 				}}
 			>
-				{steps === 1 ? (
+				{activeStep === 1 ? (
 					<GoogleMapWithSearch onLocationChange={handleLocationChange} />
 				) : null}
-				{steps === 2 && center ? (
+				{activeStep === 2 && center ? (
 					<GoogleMapWithDrawing center={center} />
 				) : null}
 			</Container>
