@@ -10,7 +10,7 @@ const Login: React.FC = () => {
 	const handleLogin = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (email === "test@gmail.com" && password === "password") {
-			navigate("/crops");
+			navigate("/onboarding");
 		} else {
 			alert("Credenciales incorrectas");
 		}
