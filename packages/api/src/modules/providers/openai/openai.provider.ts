@@ -4,9 +4,9 @@ import type { IrrigationInfo, IrrigationResponse } from "./models";
 export class LLM {
   private openai: OpenAI;
 
-  constructor(apiKey: string) {
+  constructor() {
     this.openai = new OpenAI({
-      apiKey: apiKey,
+      apiKey: process.env.OPENAI_API_KEY,
     });
   }
 
