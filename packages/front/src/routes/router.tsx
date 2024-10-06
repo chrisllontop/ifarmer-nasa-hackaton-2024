@@ -1,4 +1,5 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
+import { ProgressStepperProvider } from "../context/ProgressBar.tsx";
 import AuthGuard from "../hooks/auth-guard.tsx";
 import Alerts from "../pages/Alerts.tsx";
 import Home from "../pages/Home.tsx";
@@ -30,7 +31,9 @@ export const router = createBrowserRouter([
 		path: paths.questions,
 		element: (
 			<AuthGuard>
-				<OnboardingQuestions />
+				<ProgressStepperProvider>
+					<OnboardingQuestions />
+				</ProgressStepperProvider>
 			</AuthGuard>
 		),
 	},
@@ -59,7 +62,9 @@ export const router = createBrowserRouter([
 		element: (
 			<AuthGuard>
 				<Layout>
-					<Search />
+					<ProgressStepperProvider>
+						<Search />
+					</ProgressStepperProvider>
 				</Layout>
 			</AuthGuard>
 		),

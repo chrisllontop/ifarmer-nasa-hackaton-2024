@@ -9,10 +9,12 @@ import {
 } from "@mui/material";
 import { DateTime } from "luxon";
 import React, { useState } from "react";
+import { ProgressStepper } from "../components/ProgressStepper.tsx";
 import { BasicDatePicker } from "../components/questions/DatePicker.tsx";
 import { IrrigationSystem } from "../components/questions/IrrigationSystem.tsx";
 import { MultipleOptions } from "../components/questions/MultipleOptions";
 import { SelectAndInput } from "../components/questions/SelectAndInput";
+import { useProgressStepper } from "../context/ProgressBar.tsx";
 
 const inputContent = {
 	label: "Quantity",
@@ -52,6 +54,8 @@ export const OnboardingQuestions = () => {
 	const [inputValue, setInputValue] = useState<string>("");
 	const [selectedDate, setSelectedDate] = useState<DateTime | null>(null);
 	const [crop, setCrop] = useState<string>("");
+
+	const { activeStep, setActiveStep } = useProgressStepper();
 
 	const handleFirstQuestionChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
@@ -142,6 +146,11 @@ export const OnboardingQuestions = () => {
 				mt: 4,
 			}}
 		>
+			<ProgressStepper
+				steps={6}
+				activeStep={activeStep}
+				setActiveStep={setActiveStep}
+			/>
 			<Box sx={{ height: "85vh" }}>
 				<Typography component="h1" variant="h5" textAlign="left" sx={{ mb: 4 }}>
 					{questions[questionIndex].title}
@@ -149,11 +158,12 @@ export const OnboardingQuestions = () => {
 				<Box>{questions[questionIndex].component}</Box>
 			</Box>
 			<Button
-				onClick={() =>
+				onClick={() => {
 					setQuestionIndex((prevIndex) =>
 						Math.min(prevIndex + 1, questions.length - 1),
-					)
-				}
+					);
+					setActiveStep(activeStep + 1);
+				}}
 				variant="contained"
 				fullWidth
 			>
