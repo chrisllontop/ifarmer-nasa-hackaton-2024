@@ -1,0 +1,30 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+    container:
+      image: oven/bun:latest
+
+    steps:
+      - name: 🛠️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 📦 Install dependencies with bun
+        run: bun install --frozen-lockfile
+
+      - name: 🔍 Run linter with bun
+        run: bun lint
+
+      - name: 💾 Commit linter fixes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Linter fixes"
+          branch: ${{ github.head_ref }}
+          file_pattern: "."
+        continue-on-error: true
