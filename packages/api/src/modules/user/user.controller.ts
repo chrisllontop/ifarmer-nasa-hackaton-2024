@@ -1,4 +1,4 @@
-import { Elysia, type Context } from 'elysia';
+import { Elysia } from 'elysia';
 import User from './user.schema';
 import { createUserDto, updateUserDto } from './user.dto';
 import { authenticator } from '../auth/auth.validator';
