@@ -25,7 +25,6 @@ export const addCrop = async (body: LocationBody) => {
 
 export const updateCrop = async (body: LocationBody) => {
 	const authToken = localStorage.getItem("access_token");
-	console.log(authToken);
 
 	const { data, error } = await client.api.crops.put(body, {
 		headers: {
