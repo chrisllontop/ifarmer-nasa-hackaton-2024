@@ -8,20 +8,8 @@ export enum PARAMS {
 	ELEVATION_TEMPERTURE = "t",
 }
 
-export enum FORMATS {
-	CSV = "csv",
-	JSON = "json",
-	XML = "xml",
-	HTML = "html",
-}
-
 export enum TEMP_UNITS {
-	CELSIUS = "C",
-	FARENHEIT = "F",
-	KELVIN = "K",
-}
-
-export interface WheaterInit {
-	coordinates: Coordinates;
-	dates: DateRange;
+  CELSIUS = 'C',
+  FARENHEIT = 'F',
+  KELVIN = 'K'
 }
