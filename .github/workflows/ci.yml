@@ -16,14 +16,20 @@ jobs:
       - name: 📥 Install Bun
         run: |
           curl -fsSL https://bun.sh/install | bash
-          export BUN_INSTALL="$HOME/.bun"
-          export PATH="$BUN_INSTALL/bin:$PATH"
+          echo 'export BUN_INSTALL="$HOME/.bun"' >> $GITHUB_ENV
+          echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >> $GITHUB_ENV
 
       - name: 📦 Install dependencies with bun
         run: bun install --frozen-lockfile
+        env:
+          BUN_INSTALL: ${{ env.BUN_INSTALL }}
+          PATH: ${{ env.PATH }}
 
       - name: 🔍 Run linter with bun
         run: bun lint
+        env:
+          BUN_INSTALL: ${{ env.BUN_INSTALL }}
+          PATH: ${{ env.PATH }}
 
       - name: 💾 Commit linter fixes
         uses: stefanzweifel/git-auto-commit-action@v4
