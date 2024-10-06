@@ -1,5 +1,6 @@
 import { Elysia } from 'elysia';
-import { swagger } from '@elysiajs/swagger'
+import { swagger } from '@elysiajs/swagger';
+import { cors } from '@elysiajs/cors';
 
 import './database/database.setup';
 
@@ -9,11 +10,14 @@ import { weatherController } from './modules/weather/weather.controller';
 
 const PORT = process.env.PORT || 3000;
 
-const app = new Elysia({prefix: '/api'})
+const app = new Elysia()
   .use(swagger())
-  .use(usersController)
-  .use(authController)
-  .use(weatherController)
+  .use(cors())
+  .group('/api', (app) =>
+    app
+      .use(usersController)
+      .use(authController)
+      .use(weatherController))
   .listen(PORT, (app) => {
     console.log(`🦊 Elysia is running at ${app?.hostname}:${PORT}`);
   });
