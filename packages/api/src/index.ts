@@ -14,10 +14,11 @@ const app = new Elysia()
   .use(swagger())
   .use(cors())
   .group('/api', (app) =>
-    app
-      .use(usersController)
-      .use(authController)
-      .use(weatherController))
+    app.use(usersController)
+    .use(authController)
+    .use(weatherController)
+    .get('/', 'Hello Elysia', { response: t.String({ description: 'sample description' }) })
+  )
   .listen(PORT, (app) => {
     console.log(`🦊 Elysia is running at ${app?.hostname}:${PORT}`);
   });

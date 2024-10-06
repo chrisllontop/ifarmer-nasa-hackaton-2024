@@ -1,12 +1,14 @@
 import type { Coordinates, DateRange } from '../../../config/common.interfaces';
-import { FORMATS, PARAMS, type WheaterInit } from './meteomatics.schema';
+import { FORMATS, PARAMS, TEMP_UNITS, type WheaterInit } from './meteomatics.schema';
 import dayjs from 'dayjs';
 
 export class MeteomaticsService {
 
   public dates: DateRange = { start: new Date(), end: new Date() }
   public coodinates: Coordinates = { lat: 0, lon: 0 }
-  private param: PARAMS = PARAMS.HIST_RAIN_DAYS
+  public frecuency: string = 'PT1H'
+
+  private param: string = ''
   private username?: string
   private password?: string
   private baseUrl = 'https://api.meteomatics.com'
@@ -28,14 +30,12 @@ export class MeteomaticsService {
   }
 
   private execute = () => {
-    const frecuency = 'PT1H'
     let headers = new Headers();
     headers.set('Authorization', 'Basic ' + Buffer.from(this.username + ":" + this.password).toString('base64'))
     const dates = `${dayjs(this.dates.start).format('YYYY-MM-DD')}Z--${dayjs(this.dates.end).format('YYYY-MM-DD')}Z`
     const coords = `${this.coodinates.lat},${this.coodinates.lon}`
     const format = FORMATS.JSON
-    const url = `${this.baseUrl}/${dates}:${frecuency}/${this.param}/${coords}/${format}`
-    console.log(url)
+    const url = `${this.baseUrl}/${dates}:${this.frecuency}/${this.param}/${coords}/${format}`
     return fetch(
       url,
       { headers }
@@ -47,12 +47,14 @@ export class MeteomaticsService {
     return this.execute();
   }
   
-  windPrediction = async () => {
-  
+  humidityPrediction = async (elevation: number) => {
+    this.param = `${PARAMS.RELATIVE_HUMIDITY}_${elevation}m:p`
+    return this.execute();
   }
-  
-  humidityPrediction = async () => {
-  
+
+  temperaturePrediction = async (elevation: number) => {
+    this.param = `${PARAMS.ELEVATION_TEMPERTURE}_${elevation}m:${TEMP_UNITS.CELSIUS}`
+    return this.execute();
   }
 
 }
