@@ -5,7 +5,6 @@ import { paths } from "../routes/paths.ts";
 
 export const Onboarding = () => {
 	const navigate = useNavigate();
-
 	return (
 		<Box>
 			<Box sx={{ width: "350px", margin: "0 auto", height: "85vh" }}>
