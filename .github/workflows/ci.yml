@@ -1,0 +1,29 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛠️ Checkout code
+        uses: actions/checkout@v3
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: 📦 Install dependencies with bun
+        run: bun install --frozen-lockfile
+
+      - name: 🔍 Run linter with bun
+        run: bun lint
+
+      - name: 💾 Commit linter fixes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Linter fixes"
