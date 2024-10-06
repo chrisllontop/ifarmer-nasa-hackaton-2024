@@ -3,13 +3,12 @@ import {
 	Button,
 	FormControl,
 	FormHelperText,
-	SelectChangeEvent,
 	TextField,
 	Typography,
 } from "@mui/material";
-import { DateTime } from "luxon";
-import React, { useState } from "react";
-import { ProgressStepper } from "../components/ProgressStepper.tsx";
+import type { SelectChangeEvent } from "@mui/material";
+import type { DateTime } from "luxon";
+import { useState } from "react";
 import { BasicDatePicker } from "../components/questions/DatePicker.tsx";
 import { IrrigationSystem } from "../components/questions/IrrigationSystem.tsx";
 import { MultipleOptions } from "../components/questions/MultipleOptions";
@@ -46,10 +45,8 @@ const initialOptions = [
 ];
 
 export const OnboardingQuestions = () => {
-	const [questionIndex, setQuestionIndex] = useState(0);
 	const [firstQuestionOptions, setFirstQuestionOptions] =
 		useState(initialOptions);
-
 	const [selectValue, setSelectValue] = useState<string>("");
 	const [inputValue, setInputValue] = useState<string>("");
 	const [selectedDate, setSelectedDate] = useState<DateTime | null>(null);
@@ -133,6 +130,7 @@ export const OnboardingQuestions = () => {
 			),
 		},
 	];
+	const questionIndex = activeStep - 3;
 
 	return (
 		<Box
@@ -143,9 +141,9 @@ export const OnboardingQuestions = () => {
 				gap: "12px",
 				width: "350px",
 				margin: "auto",
+				mt: 5,
 			}}
 		>
-			<ProgressStepper steps={7} />
 			<Box sx={{ height: "85vh" }}>
 				<Typography component="h1" variant="h5" textAlign="left" sx={{ mb: 4 }}>
 					{questions[questionIndex].title}
@@ -153,12 +151,7 @@ export const OnboardingQuestions = () => {
 				<Box>{questions[questionIndex].component}</Box>
 			</Box>
 			<Button
-				onClick={() => {
-					setQuestionIndex((prevIndex) =>
-						Math.min(prevIndex + 1, questions.length - 1),
-					);
-					setActiveStep(activeStep + 1);
-				}}
+				onClick={() => setActiveStep(activeStep + 1)}
 				variant="contained"
 				fullWidth
 			>
