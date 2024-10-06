@@ -4,6 +4,7 @@ import Alerts from "../pages/Alerts.tsx";
 import Home from "../pages/Home.tsx";
 import Login from "../pages/Login.tsx";
 import { Onboarding } from "../pages/Onboarding.tsx";
+import { OnboardingQuestions } from "../pages/OnboardingQuestions.tsx";
 import Search from "../pages/Search.tsx";
 import Layout from "../templates/layout.tsx";
 import { paths } from "./paths";
@@ -22,6 +23,14 @@ export const router = createBrowserRouter([
 		element: (
 			<AuthGuard>
 				<Onboarding />
+			</AuthGuard>
+		),
+	},
+	{
+		path: paths.questions,
+		element: (
+			<AuthGuard>
+				<OnboardingQuestions />
 			</AuthGuard>
 		),
 	},
