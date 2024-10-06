@@ -143,14 +143,9 @@ export const OnboardingQuestions = () => {
 				gap: "12px",
 				width: "350px",
 				margin: "auto",
-				mt: 4,
 			}}
 		>
-			<ProgressStepper
-				steps={6}
-				activeStep={activeStep}
-				setActiveStep={setActiveStep}
-			/>
+			<ProgressStepper steps={7} />
 			<Box sx={{ height: "85vh" }}>
 				<Typography component="h1" variant="h5" textAlign="left" sx={{ mb: 4 }}>
 					{questions[questionIndex].title}
