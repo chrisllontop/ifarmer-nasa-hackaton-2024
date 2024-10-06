@@ -2,6 +2,7 @@ import { Box, Button, Container, CssBaseline, TextField } from "@mui/material";
 import { Autocomplete, GoogleMap, Marker } from "@react-google-maps/api";
 import { useCallback, useRef, useState } from "react";
 import type React from "react";
+import styles from "./GoogleMap.module.css";
 
 const mapContainerStyle = {
 	width: "100%",
@@ -105,12 +106,12 @@ const GoogleMapWithMarkerControl: React.FC<GoogleMapWithMarkerControlProps> = ({
 						<TextField
 							type="text"
 							id="outlined-basic"
-							label="Introduce your crop location"
 							placeholder="Introduce your crop location"
 							sx={{
 								width: "100%",
 							}}
 							variant="filled"
+							className={styles.inputContainer}
 						/>
 					</Autocomplete>
 				</Box>

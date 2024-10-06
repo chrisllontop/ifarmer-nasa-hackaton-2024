@@ -1,21 +1,29 @@
 import { Box } from "@mui/material";
-import { ProgressStepper } from "../components/ProgressStepper.tsx";
-import { useProgressStepper } from "../context/ProgressBar.tsx";
-import { OnboardingQuestions } from "./OnboardingQuestions.tsx";
+import { ProgressStepper } from "../components/ProgressStepper";
+import { Questions } from "../components/onboarding/Questions";
+import Search from "../components/onboarding/Search";
+import { useProgressStepper } from "../context/ProgressBar";
+import Layout from "../templates/layout.tsx";
 
 export const Onboarding = () => {
-	const { activeStep, setActiveStep } = useProgressStepper();
+	const { activeStep } = useProgressStepper();
 
 	return (
 		<Box
 			sx={{
 				display: "flex",
 				flexDirection: "column",
-				height: "100%",
+				height: activeStep > 2 ? "100vh" : "100%",
 			}}
 		>
 			<ProgressStepper steps={7} />
-			{activeStep >= 3 && <OnboardingQuestions />}
+			{activeStep < 3 ? (
+				<Layout isWrapper>
+					<Search />
+				</Layout>
+			) : (
+				<Questions />
+			)}
 		</Box>
 	);
 };

@@ -5,17 +5,18 @@ import Navbar from "../components/navbar/Navbar";
 
 interface LayoutProps {
 	children: React.ReactNode;
+	isWrapper?: boolean;
 }
 
-const libraries: Libraries = ['places', 'geometry', 'drawing'];
+const libraries: Libraries = ["places", "geometry", "drawing"];
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children, isWrapper = false }) => {
 	return (
 		<Box
 			sx={{
 				display: "flex",
 				flexDirection: "column",
-				height: "100vh",
+				height: isWrapper ? "94vh" : "100vh",
 				width: "100vw",
 			}}
 		>

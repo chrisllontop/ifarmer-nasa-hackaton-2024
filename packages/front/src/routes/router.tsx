@@ -5,7 +5,6 @@ import Alerts from "../pages/Alerts.tsx";
 import Home from "../pages/Home.tsx";
 import Login from "../pages/Login.tsx";
 import { Onboarding } from "../pages/Onboarding.tsx";
-import Search from "../pages/Search.tsx";
 import { SplashScreen } from "../pages/SplashScreen.tsx";
 import Layout from "../templates/layout.tsx";
 import { paths } from "./paths";
@@ -53,18 +52,6 @@ export const router = createBrowserRouter([
 			<AuthGuard>
 				<Layout>
 					<Alerts />
-				</Layout>
-			</AuthGuard>
-		),
-	},
-	{
-		path: paths.search,
-		element: (
-			<AuthGuard>
-				<Layout>
-					<ProgressStepperProvider>
-						<Search />
-					</ProgressStepperProvider>
 				</Layout>
 			</AuthGuard>
 		),

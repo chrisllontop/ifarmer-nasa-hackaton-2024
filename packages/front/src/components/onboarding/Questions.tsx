@@ -9,11 +9,11 @@ import {
 import type { SelectChangeEvent } from "@mui/material";
 import type { DateTime } from "luxon";
 import { useState } from "react";
-import { BasicDatePicker } from "../components/questions/DatePicker.tsx";
-import { IrrigationSystem } from "../components/questions/IrrigationSystem.tsx";
-import { MultipleOptions } from "../components/questions/MultipleOptions";
-import { SelectAndInput } from "../components/questions/SelectAndInput";
-import { useProgressStepper } from "../context/ProgressBar.tsx";
+import { useProgressStepper } from "../../context/ProgressBar.tsx";
+import { BasicDatePicker } from "../DatePicker.tsx";
+import { MultipleOptions } from "../MultipleOptions.tsx";
+import { SelectAndInput } from "../SelectAndInput.tsx";
+import { IrrigationSystem } from "./questions/IrrigationSystem.tsx";
 
 const inputContent = {
 	label: "Quantity",
@@ -44,7 +44,7 @@ const initialOptions = [
 	{ label: "I don’t have one yet", checked: false },
 ];
 
-export const OnboardingQuestions = () => {
+export const Questions = () => {
 	const [firstQuestionOptions, setFirstQuestionOptions] =
 		useState(initialOptions);
 	const [selectValue, setSelectValue] = useState<string>("");
@@ -142,9 +142,10 @@ export const OnboardingQuestions = () => {
 				width: "350px",
 				margin: "auto",
 				mt: 5,
+				flex: 1,
 			}}
 		>
-			<Box sx={{ height: "85vh" }}>
+			<Box sx={{ flex: 0.8 }}>
 				<Typography component="h1" variant="h5" textAlign="left" sx={{ mb: 4 }}>
 					{questions[questionIndex].title}
 				</Typography>
