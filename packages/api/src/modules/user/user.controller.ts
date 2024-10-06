@@ -1,7 +1,7 @@
-import { Elysia } from "elysia";
-import User from "./user.schema";
-import { createUserDto, updateUserDto } from "./user.dto";
+import type Elysia from "elysia";
 import { authenticator } from "../auth/auth.validator";
+import { createUserDto, updateUserDto } from "./user.dto";
+import User from "./user.schema";
 
 export const usersController = (app: Elysia) =>
 	app.group("/user", (app) =>

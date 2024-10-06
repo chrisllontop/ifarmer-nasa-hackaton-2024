@@ -1,14 +1,11 @@
-import { Elysia } from "elysia";
+import type Elysia from "elysia";
 import { authenticator } from "../auth/auth.validator";
+import { PaginationQueryDto } from "../shared/general.dto.ts";
 import {
+	CropParamsDto,
 	createCropDto,
-	updateCropDto,
-	getCropDto,
 	deleteCropDto,
-	listCropDto,
-	cropResponseDto,
-	listcropResponseDto,
-	deleteCropResponseDto,
+	updateCropDto,
 } from "./crop.dto";
 import CropService from "./crop.service";
 
@@ -23,23 +20,14 @@ export const cropController = (app: Elysia) =>
 				async ({ user, query }) => {
 					const page = Number(query.page) || 1;
 					const limit = Number(query.limit) || 10;
-					const result = await cropService.listByUserId(
+					return await cropService.listByUserId(
 						user._id.toString(),
 						page,
 						limit,
 					);
-					return {
-						...result,
-						crops: result.crops.map((p) => ({
-							...p.toObject(),
-							_id: p._id.toString(),
-							user: p.user.toString(),
-						})),
-					};
 				},
 				{
-					...listCropDto,
-					...listcropResponseDto,
+					query: PaginationQueryDto,
 				},
 			)
 			.get(
@@ -49,73 +37,34 @@ export const cropController = (app: Elysia) =>
 						user._id.toString(),
 						params.id,
 					);
-					if (!crop) return null;
-					return {
-						...crop.toObject(),
-						_id: crop._id.toString(),
-						user: crop.user.toString(),
-					};
+					if (!crop) throw new Error("Crop not found");
+					return crop;
 				},
 				{
-					...getCropDto,
-					...cropResponseDto,
+					params: CropParamsDto,
 				},
 			)
 			.guard(createCropDto, (app) =>
-				app.post(
-					"/",
-					async ({ user, body }) => {
-						const crop = await cropService.create(user._id.toString(), body);
-						return {
-							...crop.toObject(),
-							_id: crop._id.toString(),
-							user: crop.user.toString(),
-						};
-					},
-					{
-						...cropResponseDto,
-					},
-				),
+				app.post("/", async ({ user, body }) => {
+					return await cropService.create(user._id.toString(), body);
+				}),
 			)
 			.guard(updateCropDto, (app) =>
-				app.put(
-					"/:id",
-					async ({ params, body, user }) => {
-						const crop = await cropService.update(
-							user._id.toString(),
-							params.id,
-							body,
-						);
-						if (!crop) return null;
-						return {
-							...crop.toObject(),
-							_id: crop._id.toString(),
-							user: crop.user.toString(),
-						};
-					},
-					{
-						...cropResponseDto,
-					},
-				),
+				app.put("/:id", async ({ params, body, user }) => {
+					const crop = await cropService.update(
+						user._id.toString(),
+						params.id,
+						body,
+					);
+					if (!crop) throw new Error("Crop not found");
+					return crop;
+				}),
 			)
 			.guard(deleteCropDto, (app) =>
-				app.delete(
-					"/:id",
-					async ({ params, user }) => {
-						const crop = await cropService.delete(
-							user._id.toString(),
-							params.id,
-						);
-						if (!crop) return null;
-						return {
-							...crop.toObject(),
-							_id: crop._id.toString(),
-							user: crop.user.toString(),
-						};
-					},
-					{
-						...deleteCropResponseDto,
-					},
-				),
+				app.delete("/:id", async ({ params, user }) => {
+					const crop = await cropService.delete(user._id.toString(), params.id);
+					if (!crop) throw new Error("Crop not found");
+					return crop;
+				}),
 			),
 	);

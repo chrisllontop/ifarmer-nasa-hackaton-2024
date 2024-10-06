@@ -1,22 +1,14 @@
-import { Schema, model, Document, Types } from "mongoose";
+import type { Static } from "elysia";
+import { Schema, model } from "mongoose";
+import type { WithMetadata } from "../shared/general.dto.ts";
+import type { CropDto } from "./crop.dto.ts";
 
-export interface ICrop extends Document {
-	_id: Types.ObjectId;
-	user: Types.ObjectId;
-	area: string;
-	cropType?: string;
-	geoLocation?: string;
-	daysSinceLastIrrigation?: string;
-	coordinates: {
-		lat: number;
-		lon: number;
-	};
-}
+export type CropDtoType = WithMetadata<Static<typeof CropDto>>;
 
-const cropSchema = new Schema<ICrop>(
+const cropSchema = new Schema<CropDtoType>(
 	{
 		user: {
-			type: Schema.Types.ObjectId,
+			type: String,
 			ref: "user",
 			required: true,
 		},
@@ -49,7 +41,15 @@ const cropSchema = new Schema<ICrop>(
 	},
 	{
 		timestamps: true,
+		toJSON: {
+			virtuals: true,
+			transform: (doc, record) => {
+				record.id = record._id.toString();
+				const { _id, __v, user, ...rest } = record;
+				return rest;
+			},
+		},
 	},
 );
 
-export default model<ICrop>("Crop", cropSchema);
+export default model<CropDtoType>("Crop", cropSchema);

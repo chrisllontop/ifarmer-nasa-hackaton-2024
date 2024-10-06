@@ -1,5 +1,5 @@
 import jwt from "@elysiajs/jwt";
-import Elysia from "elysia";
+import type Elysia from "elysia";
 import User from "../user/user.schema";
 
 const authenticator = (app: Elysia) =>

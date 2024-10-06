@@ -1,21 +1,22 @@
-import { Model, Types } from "mongoose";
-import Crop, { type ICrop as ICrop } from "./crop.schema.ts";
+import type { Model, Types } from "mongoose";
+import type { WithMetadata } from "../shared/general.dto.ts";
+import Crop, { type CropDtoType } from "./crop.schema.ts";
 
 class CropService {
-	private model: Model<ICrop>;
+	private readonly model: Model<CropDtoType>;
 
 	constructor() {
 		this.model = Crop;
 	}
 
-	// Create a new crop
-	async create(userId: string, cropData: Partial<ICrop>): Promise<ICrop> {
+	async create(userId: string, cropData: Partial<CropDtoType>) {
 		try {
 			const newCrop = new this.model({
 				...cropData,
-				user: new Types.ObjectId(userId),
+				user: userId,
 			});
-			return await newCrop.save();
+			const newCropResponse = await newCrop.save();
+			return newCropResponse.toJSON();
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				throw new Error(`Error creating crop: ${error.message}`);
@@ -26,9 +27,16 @@ class CropService {
 	}
 
 	// Read a single crop by ID
-	async findById(userId: string, id: string): Promise<ICrop | null> {
+	async findById(
+		userId: string,
+		id: string,
+	): Promise<WithMetadata<CropDtoType>> {
 		try {
-			return await this.model.findOne({ _id: id, user: userId }).exec();
+			const document = await this.model
+				.findOne({ _id: id, user: userId })
+				.exec();
+			if (!document) throw new Error("Crop not found");
+			return document.toJSON();
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				throw new Error(`Error fetching crop: ${error.message}`);
@@ -39,11 +47,7 @@ class CropService {
 	}
 
 	// Update a crop
-	async update(
-		userId: string,
-		id: string,
-		updateData: Partial<ICrop>,
-	): Promise<ICrop | null> {
+	async update(userId: string, id: string, updateData: Partial<CropDtoType>) {
 		try {
 			return await this.model
 				.findOneAndUpdate({ _id: id, user: userId }, updateData, { new: true })
@@ -58,7 +62,7 @@ class CropService {
 	}
 
 	// Delete a crop
-	async delete(userId: string, id: string): Promise<ICrop | null> {
+	async delete(userId: string, id: string): Promise<CropDtoType | null> {
 		try {
 			return await this.model
 				.findOneAndDelete({ _id: id, user: userId })
@@ -75,10 +79,10 @@ class CropService {
 	// List crops by user ID with pagination
 	async listByUserId(
 		userId: string,
-		page: number = 1,
-		limit: number = 10,
+		page = 1,
+		limit = 10,
 	): Promise<{
-		crops: (ICrop & { _id: Types.ObjectId })[];
+		data: (CropDtoType & { _id: Types.ObjectId })[];
 		total: number;
 		page: number;
 		totalPages: number;
@@ -93,7 +97,7 @@ class CropService {
 			const totalPages = Math.ceil(total / limit);
 
 			return {
-				crops: crops as (ICrop & { _id: Types.ObjectId })[],
+				data: crops,
 				total,
 				page,
 				totalPages,

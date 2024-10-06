@@ -1,5 +1,5 @@
-import { Elysia, type Context, type Handler } from "elysia";
 import { jwt } from "@elysiajs/jwt";
+import type Elysia from "elysia";
 import User from "../user/user.schema";
 import { loginDto } from "./auth.schema";
 
