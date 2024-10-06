@@ -1,1 +1,1 @@
-export { default } from './GoogleMapWithDrawing';
+export { default } from "./GoogleMapWithDrawing";
