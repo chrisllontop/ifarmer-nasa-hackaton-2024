@@ -20,7 +20,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 			}}
 		>
 			<Box component="main" sx={{ flexGrow: 1 }}>
-			<LoadScript googleMapsApiKey="AIzaSyDH6v6GHzcqbNwXN_rRTHww1uctpw6OM0Q" libraries={libraries}>
+			<LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} 
+				libraries={libraries}>
 				{children}
 			</LoadScript>
 			</Box>
