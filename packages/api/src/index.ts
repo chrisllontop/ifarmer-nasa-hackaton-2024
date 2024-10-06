@@ -8,6 +8,7 @@ import { usersController } from "./modules/user/user.controller";
 import { authController } from "./modules/auth/auth.controller";
 import { weatherController } from "./modules/weather/weather.controller";
 import { onboardingController } from "./modules/onboarding/onboarding.controller";
+import { plantationController } from "./modules/crop/crop.controller";
 
 const PORT = process.env.PORT || 3000;
 
@@ -20,6 +21,7 @@ const app = new Elysia()
 			.use(authController)
 			.use(weatherController)
 			.use(onboardingController)
+			.use(plantationController)
 			.get("/", "Hello Elysia", {
 				response: t.String({ description: "sample description" }),
 			}),
