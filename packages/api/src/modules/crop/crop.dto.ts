@@ -5,7 +5,7 @@ export const CropDto = t.Object({
 	user: t.String(),
 	area: t.String(),
 	cropType: t.Optional(t.String()),
-	waterSource: t.Optional(t.String()),
+	waterSources: t.Optional(t.Array(t.String())),
 	waterAmount: t.Optional(t.String()),
 	irrigationSystem: t.Optional(t.String()),
 	geoLocation: t.Optional(t.String()),
@@ -25,7 +25,7 @@ export const createCropDto = {
 };
 
 export const updateCropDto = {
-	body: t.Omit(CropDto, ["id", "user"]),
+	body: t.Omit(CropDto, ["id", "user", "coordinates", "area"]),
 	params: CropParamsDto,
 };
 
