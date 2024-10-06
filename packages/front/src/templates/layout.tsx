@@ -7,7 +7,7 @@ interface LayoutProps {
 	children: React.ReactNode;
 }
 
-const libraries = ["places", "geometry"];
+const libraries = ['places', 'geometry', 'drawing'];
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
