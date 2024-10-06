@@ -1,29 +1,24 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import React, { useState } from "react";
+import type React from "react";
 import styles from "./Card.module.css";
 
 interface CardIconProps {
 	description: string;
 	title: string;
-	onClick: () => void;
+	onClick: (value: string) => void;
 	icon: React.ReactNode;
+	isSelected: boolean;
 }
 export const CardIcon = ({
 	description,
 	title,
 	onClick,
 	icon,
+	isSelected,
 }: CardIconProps) => {
-	const [isSelected, setIsSelected] = useState(false);
-
-	const handleCardClick = () => {
-		setIsSelected(!isSelected);
-		onClick();
-	};
-
 	return (
 		<Card
-			onClick={handleCardClick}
+			onClick={() => onClick(title.toLowerCase())}
 			sx={{
 				display: "flex",
 				padding: "16px",

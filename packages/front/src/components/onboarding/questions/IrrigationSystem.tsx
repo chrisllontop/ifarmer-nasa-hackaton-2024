@@ -1,10 +1,17 @@
 import WaterIcon from "@mui/icons-material/Water";
+import { useState } from "react";
 import sprinklerSVG from "../../../assets/sprinkler.svg";
 import { CardIcon } from "../../cards/CardIcon.tsx";
 
-export const IrrigationSystem = () => {
-	const handleClick = () => {
-		console.log("click");
+interface IrrigationSystemProps {
+	onClick: (value: string) => void;
+}
+export const IrrigationSystem = ({ onClick }: IrrigationSystemProps) => {
+	const [selectedCard, setSelectedCard] = useState<string>("");
+
+	const handleCardClick = (title: string) => {
+		setSelectedCard(title);
+		onClick(title);
 	};
 
 	return (
@@ -13,13 +20,15 @@ export const IrrigationSystem = () => {
 				title="Surface Irrigation"
 				description="For flood irrigation or furrow irrigation"
 				icon={<WaterIcon />}
-				onClick={handleClick}
+				onClick={() => handleCardClick("surface irrigation")}
+				isSelected={selectedCard === "surface irrigation"}
 			/>
 			<CardIcon
 				title="Localized Irrigation"
 				description="For drip irrigation or sprinkler irrigation"
 				icon={<img src={sprinklerSVG} alt="sprinkler" />}
-				onClick={handleClick}
+				onClick={() => handleCardClick("localized irrigation")}
+				isSelected={selectedCard === "localized irrigation"}
 			/>
 		</>
 	);

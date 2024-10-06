@@ -1,7 +1,7 @@
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { DateTime } from "luxon";
+import type { DateTime } from "luxon";
 
 interface DatePickerProps {
 	label: string;
