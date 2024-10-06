@@ -50,7 +50,7 @@ export const cropController = (app: Elysia) =>
 				}),
 			)
 			.guard(updateCropDto, (app) =>
-				app.put("/:id", async ({ params, body, user }) => {
+				app.patch("/:id", async ({ params, body, user }) => {
 					const crop = await cropService.update(
 						user._id.toString(),
 						params.id,
