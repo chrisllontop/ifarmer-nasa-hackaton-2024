@@ -1,6 +1,6 @@
 import { Box, Button, Container, CssBaseline, TextField } from "@mui/material";
 import { Autocomplete, GoogleMap, Marker } from "@react-google-maps/api";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type React from "react";
 import styles from "./GoogleMap.module.css";
 
@@ -72,6 +72,29 @@ const GoogleMapWithMarkerControl: React.FC<GoogleMapWithMarkerControlProps> = ({
 		setLiteralLocation(event.latLng);
 		setSelectedPosition(newPosition);
 	};
+
+	useEffect(() => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					const userLatLng = {
+						lat: position.coords.latitude,
+						lng: position.coords.longitude,
+					};
+					setSelectedPosition(userLatLng);
+					map?.panTo(userLatLng);
+				},
+				() => {
+					setSelectedPosition(center);
+					map?.panTo(center);
+				},
+			);
+		} else {
+			alert("La geolocalización no está soportada por este navegador.");
+			setSelectedPosition(center);
+			map?.panTo(center);
+		}
+	}, [map]);
 
 	return (
 		<Box
