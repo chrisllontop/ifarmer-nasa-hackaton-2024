@@ -5,8 +5,10 @@ interface LoginBody {
 	password: string;
 }
 
-export const login = async (data: LoginBody) => {
-	return await client.api.auth.login.post(data);
+export const login = async (body: LoginBody) => {
+	const { data, error } = await client.api.auth.login.post(body);
+	if (data) return data;
+	throw error.value;
 };
 //
 // export const user = async () => {

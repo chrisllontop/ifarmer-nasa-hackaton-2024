@@ -1,13 +1,28 @@
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
-import React, { useState, FormEvent } from "react";
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Link,
+	Snackbar,
+	TextField,
+	Typography,
+} from "@mui/material";
+import React, { useState, FormEvent, useEffect } from "react";
 import { useLogin } from "../hooks/use-auth.ts";
 
 const Login: React.FC = () => {
 	const [email, setEmail] = useState<string>("nasa@nasa.com");
 	const [password, setPassword] = useState<string>("1234");
+	const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
 	const login = useLogin();
-	const { mutate, error: loginError, isPending } = login;
+	const { mutate, error, isPending } = login;
+
+	useEffect(() => {
+		if (error?.message) {
+			setOpenSnackbar(true);
+		}
+	}, [error]);
 
 	const handleLogin = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -62,8 +77,20 @@ const Login: React.FC = () => {
 				value={password}
 				onChange={(e) => setPassword(e.target.value)}
 			/>
-			<Button variant="contained" type="submit" sx={{ mt: "24px" }}>
-				Login
+			<Button
+				variant="contained"
+				type="submit"
+				sx={{ mt: "24px" }}
+				disabled={isPending}
+			>
+				{isPending ? (
+					<span style={{ display: "flex", alignItems: "center" }}>
+						<CircularProgress size={18} sx={{ color: "white", mr: 2 }} />
+						Loading
+					</span>
+				) : (
+					"Login"
+				)}
 			</Button>
 
 			<Box
@@ -80,6 +107,12 @@ const Login: React.FC = () => {
 					Forgot password?
 				</Link>
 			</Box>
+			<Snackbar
+				message={error?.message}
+				open={openSnackbar}
+				autoHideDuration={5000}
+				onClose={() => setOpenSnackbar(false)}
+			/>
 		</Box>
 	);
 };
