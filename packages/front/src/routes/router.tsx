@@ -5,8 +5,8 @@ import Alerts from "../pages/Alerts.tsx";
 import Home from "../pages/Home.tsx";
 import Login from "../pages/Login.tsx";
 import { Onboarding } from "../pages/Onboarding.tsx";
-import { OnboardingQuestions } from "../pages/OnboardingQuestions.tsx";
 import Search from "../pages/Search.tsx";
+import { SplashScreen } from "../pages/SplashScreen.tsx";
 import Layout from "../templates/layout.tsx";
 import { paths } from "./paths";
 
@@ -20,19 +20,19 @@ export const router = createBrowserRouter([
 		element: <Login />,
 	},
 	{
-		path: paths.onboarding,
+		path: paths.initialStep,
 		element: (
 			<AuthGuard>
-				<Onboarding />
+				<SplashScreen />
 			</AuthGuard>
 		),
 	},
 	{
-		path: paths.questions,
+		path: paths.onboarding,
 		element: (
 			<AuthGuard>
 				<ProgressStepperProvider>
-					<OnboardingQuestions />
+					<Onboarding />
 				</ProgressStepperProvider>
 			</AuthGuard>
 		),

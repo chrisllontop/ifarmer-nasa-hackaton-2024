@@ -22,7 +22,7 @@ export const useProgressStepper = () => {
 export const ProgressStepperProvider = ({
 	children,
 }: { children: ReactNode }) => {
-	const [activeStep, setActiveStep] = useState<number>(0);
+	const [activeStep, setActiveStep] = useState<number>(1);
 
 	return (
 		<ProgressStepperContext.Provider value={{ activeStep, setActiveStep }}>
