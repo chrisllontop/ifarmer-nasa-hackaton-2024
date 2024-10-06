@@ -1,13 +1,13 @@
 import { Schema, model } from 'mongoose';
 
-interface IAnswer extends Document {
+interface IOnboarding extends Document {
   user: Object;
   key: string;
   question: string;
   answer: string;
 }
 
-const schema = new Schema<IAnswer>(
+const schema = new Schema<IOnboarding>(
   {
     user:[
       { type: Schema.Types.ObjectId, ref: 'User' }
@@ -33,4 +33,4 @@ const schema = new Schema<IAnswer>(
   }
 );
 
-export default model<IAnswer>('answer', schema);
+export default model<IOnboarding>('onboarding', schema);
