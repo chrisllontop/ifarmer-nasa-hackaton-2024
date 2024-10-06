@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose';
 
 interface IAnswer extends Document {
   user: Object;
+  key: string;
   question: string;
   answer: string;
 }
@@ -11,6 +12,11 @@ const schema = new Schema<IAnswer>(
     user:[
       { type: Schema.Types.ObjectId, ref: 'User' }
     ],
+    key: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     question: {
       type: String,
       required: true,
@@ -19,7 +25,7 @@ const schema = new Schema<IAnswer>(
     answer: {
       type: String,
       required: true,
-      unique: true,
+      unique: false,
     },
   },
   {
