@@ -6,14 +6,18 @@ on:
       - main
 
 jobs:
-  build-and-lint:
+  linter:
     runs-on: ubuntu-latest
-    container:
-      image: oven/bun:latest
 
     steps:
       - name: 🛠️ Checkout code
         uses: actions/checkout@v3
+
+      - name: 📥 Install Bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          export BUN_INSTALL="$HOME/.bun"
+          export PATH="$BUN_INSTALL/bin:$PATH"
 
       - name: 📦 Install dependencies with bun
         run: bun install --frozen-lockfile
