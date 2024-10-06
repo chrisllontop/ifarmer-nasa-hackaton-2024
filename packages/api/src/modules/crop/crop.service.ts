@@ -1,94 +1,91 @@
 import { Model, Types } from "mongoose";
-import Plantation, { type IPlantation } from "./crop.schema.ts";
+import Crop, { type ICrop as ICrop } from "./crop.schema.ts";
 
-class PlantationService {
-	private model: Model<IPlantation>;
+class CropService {
+	private model: Model<ICrop>;
 
 	constructor() {
-		this.model = Plantation;
+		this.model = Crop;
 	}
 
-	// Create a new plantation
-	async create(
-		userId: string,
-		plantationData: Partial<IPlantation>,
-	): Promise<IPlantation> {
+	// Create a new crop
+	async create(userId: string, cropData: Partial<ICrop>): Promise<ICrop> {
 		try {
-			const newPlantation = new this.model({
-				...plantationData,
+			const newCrop = new this.model({
+				...cropData,
 				user: new Types.ObjectId(userId),
 			});
-			return await newPlantation.save();
+			return await newCrop.save();
 		} catch (error: unknown) {
 			if (error instanceof Error) {
-				throw new Error(`Error creating plantation: ${error.message}`);
+				throw new Error(`Error creating crop: ${error.message}`);
 			} else {
-				throw new Error("An unknown error occurred while creating plantation");
+				throw new Error("An unknown error occurred while creating crop");
 			}
 		}
 	}
 
-	// Read a single plantation by ID
-	async findById(userId: string, id: string): Promise<IPlantation | null> {
+	// Read a single crop by ID
+	async findById(userId: string, id: string): Promise<ICrop | null> {
 		try {
 			return await this.model.findOne({ _id: id, user: userId }).exec();
 		} catch (error: unknown) {
 			if (error instanceof Error) {
-				throw new Error(`Error fetching plantation: ${error.message}`);
+				throw new Error(`Error fetching crop: ${error.message}`);
 			} else {
-				throw new Error("An unknown error occurred while fetching plantation");
+				throw new Error("An unknown error occurred while fetching crop");
 			}
 		}
 	}
 
-	// Update a plantation
+	// Update a crop
 	async update(
 		userId: string,
 		id: string,
-		updateData: Partial<IPlantation>,
-	): Promise<IPlantation | null> {
+		updateData: Partial<ICrop>,
+	): Promise<ICrop | null> {
 		try {
 			return await this.model
 				.findOneAndUpdate({ _id: id, user: userId }, updateData, { new: true })
 				.exec();
 		} catch (error: unknown) {
 			if (error instanceof Error) {
-				throw new Error(`Error updating plantation: ${error.message}`);
+				throw new Error(`Error updating crop: ${error.message}`);
 			} else {
-				throw new Error("An unknown error occurred while updating plantation");
+				throw new Error("An unknown error occurred while updating crop");
 			}
 		}
 	}
 
-	// Delete a plantation
-	async delete(userId: string, id: string): Promise<IPlantation | null> {
+	// Delete a crop
+	async delete(userId: string, id: string): Promise<ICrop | null> {
 		try {
 			return await this.model
 				.findOneAndDelete({ _id: id, user: userId })
 				.exec();
 		} catch (error: unknown) {
 			if (error instanceof Error) {
-				throw new Error(`Error deleting plantation: ${error.message}`);
+				throw new Error(`Error deleting crop: ${error.message}`);
 			} else {
-				throw new Error("An unknown error occurred while deleting plantation");
+				throw new Error("An unknown error occurred while deleting crop");
 			}
 		}
 	}
 
-	// List plantations by user ID with pagination
+	// List crops by user ID with pagination
 	async listByUserId(
 		userId: string,
 		page: number = 1,
 		limit: number = 10,
 	): Promise<{
-		plantations: (IPlantation & { _id: Types.ObjectId })[];
+		crops: (ICrop & { _id: Types.ObjectId })[];
 		total: number;
 		page: number;
 		totalPages: number;
 	}> {
 		try {
 			const skip = (page - 1) * limit;
-			const [plantations, total] = await Promise.all([
+			const [crops, total] = await Promise.all([
 				this.model.find({ user: userId }).skip(skip).limit(limit).exec(),
 				this.model.countDocuments({ user: userId }),
 			]);
@@ -96,19 +93,19 @@ class PlantationService {
 			const totalPages = Math.ceil(total / limit);
 
 			return {
-				plantations: plantations as (IPlantation & { _id: Types.ObjectId })[],
+				crops: crops as (ICrop & { _id: Types.ObjectId })[],
 				total,
 				page,
 				totalPages,
 			};
 		} catch (error: unknown) {
 			if (error instanceof Error) {
-				throw new Error(`Error listing plantations: ${error.message}`);
+				throw new Error(`Error listing crops: ${error.message}`);
 			} else {
-				throw new Error("An unknown error occurred while listing plantations");
+				throw new Error("An unknown error occurred while listing crops");
 			}
 		}
 	}
 }
 
-export default PlantationService;
+export default CropService;

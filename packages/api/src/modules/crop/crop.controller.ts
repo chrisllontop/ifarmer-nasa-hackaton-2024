@@ -1,21 +1,21 @@
 import { Elysia } from "elysia";
 import { authenticator } from "../auth/auth.validator";
 import {
-	createPlantationDto,
-	updatePlantationDto,
-	getPlantationDto,
-	deletePlantationDto,
-	listPlantationsDto,
-	plantationResponseDto,
-	listPlantationsResponseDto,
-	deletePlantationResponseDto,
+	createCropDto,
+	updateCropDto,
+	getCropDto,
+	deleteCropDto,
+	listCropDto,
+	cropResponseDto,
+	listcropResponseDto,
+	deleteCropResponseDto,
 } from "./crop.dto";
-import PlantationService from "./crop.service";
+import CropService from "./crop.service";
 
-const plantationService = new PlantationService();
+const cropService = new CropService();
 
-export const plantationController = (app: Elysia) =>
-	app.group("/plantations", (app) =>
+export const cropController = (app: Elysia) =>
+	app.group("/crops", (app) =>
 		app
 			.use(authenticator)
 			.get(
@@ -23,14 +23,14 @@ export const plantationController = (app: Elysia) =>
 				async ({ user, query }) => {
 					const page = Number(query.page) || 1;
 					const limit = Number(query.limit) || 10;
-					const result = await plantationService.listByUserId(
+					const result = await cropService.listByUserId(
 						user._id.toString(),
 						page,
 						limit,
 					);
 					return {
 						...result,
-						plantations: result.plantations.map((p) => ({
+						crops: result.crops.map((p) => ({
 							...p.toObject(),
 							_id: p._id.toString(),
 							user: p.user.toString(),
@@ -38,86 +38,83 @@ export const plantationController = (app: Elysia) =>
 					};
 				},
 				{
-					...listPlantationsDto,
-					...listPlantationsResponseDto,
+					...listCropDto,
+					...listcropResponseDto,
 				},
 			)
 			.get(
 				"/:id",
 				async ({ params, user }) => {
-					const plantation = await plantationService.findById(
+					const crop = await cropService.findById(
 						user._id.toString(),
 						params.id,
 					);
-					if (!plantation) return null;
+					if (!crop) return null;
 					return {
-						...plantation.toObject(),
-						_id: plantation._id.toString(),
-						user: plantation.user.toString(),
+						...crop.toObject(),
+						_id: crop._id.toString(),
+						user: crop.user.toString(),
 					};
 				},
 				{
-					...getPlantationDto,
-					...plantationResponseDto,
+					...getCropDto,
+					...cropResponseDto,
 				},
 			)
-			.guard(createPlantationDto, (app) =>
+			.guard(createCropDto, (app) =>
 				app.post(
 					"/",
 					async ({ user, body }) => {
-						const plantation = await plantationService.create(
-							user._id.toString(),
-							body,
-						);
+						const crop = await cropService.create(user._id.toString(), body);
 						return {
-							...plantation.toObject(),
-							_id: plantation._id.toString(),
-							user: plantation.user.toString(),
+							...crop.toObject(),
+							_id: crop._id.toString(),
+							user: crop.user.toString(),
 						};
 					},
 					{
-						...plantationResponseDto,
+						...cropResponseDto,
 					},
 				),
 			)
-			.guard(updatePlantationDto, (app) =>
+			.guard(updateCropDto, (app) =>
 				app.put(
 					"/:id",
 					async ({ params, body, user }) => {
-						const plantation = await plantationService.update(
+						const crop = await cropService.update(
 							user._id.toString(),
 							params.id,
 							body,
 						);
-						if (!plantation) return null;
+						if (!crop) return null;
 						return {
-							...plantation.toObject(),
-							_id: plantation._id.toString(),
-							user: plantation.user.toString(),
+							...crop.toObject(),
+							_id: crop._id.toString(),
+							user: crop.user.toString(),
 						};
 					},
 					{
-						...plantationResponseDto,
+						...cropResponseDto,
 					},
 				),
 			)
-			.guard(deletePlantationDto, (app) =>
+			.guard(deleteCropDto, (app) =>
 				app.delete(
 					"/:id",
 					async ({ params, user }) => {
-						const plantation = await plantationService.delete(
+						const crop = await cropService.delete(
 							user._id.toString(),
 							params.id,
 						);
-						if (!plantation) return null;
+						if (!crop) return null;
 						return {
-							...plantation.toObject(),
-							_id: plantation._id.toString(),
-							user: plantation.user.toString(),
+							...crop.toObject(),
+							_id: crop._id.toString(),
+							user: crop.user.toString(),
 						};
 					},
 					{
-						...deletePlantationResponseDto,
+						...deleteCropResponseDto,
 					},
 				),
 			),

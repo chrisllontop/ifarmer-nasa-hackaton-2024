@@ -1,11 +1,10 @@
-// src/modules/plantation/plantation.dto.ts
 import { t } from "elysia";
 
-const plantationObject = {
+const cropObject = {
 	_id: t.String(),
 	user: t.String(),
 	area: t.String(),
-	plantationType: t.Optional(t.String()),
+	cropType: t.Optional(t.String()),
 	geoLocation: t.Optional(t.String()),
 	daysSinceLastIrrigation: t.Optional(t.String()),
 	coordinates: t.Object({
@@ -16,10 +15,10 @@ const plantationObject = {
 	updatedAt: t.String(),
 };
 
-export const createPlantationDto = {
+export const createCropDto = {
 	body: t.Object({
 		area: t.String(),
-		plantationType: t.Optional(t.String()),
+		cropType: t.Optional(t.String()),
 		geoLocation: t.Optional(t.String()),
 		daysSinceLastIrrigation: t.Optional(t.String()),
 		coordinates: t.Object({
@@ -29,10 +28,10 @@ export const createPlantationDto = {
 	}),
 };
 
-export const updatePlantationDto = {
+export const updateCropDto = {
 	body: t.Object({
 		area: t.Optional(t.String()),
-		plantationType: t.Optional(t.String()),
+		cropType: t.Optional(t.String()),
 		geoLocation: t.Optional(t.String()),
 		daysSinceLastIrrigation: t.Optional(t.String()),
 		coordinates: t.Optional(
@@ -47,38 +46,38 @@ export const updatePlantationDto = {
 	}),
 };
 
-export const getPlantationDto = {
+export const getCropDto = {
 	params: t.Object({
 		id: t.String(),
 	}),
 };
 
-export const deletePlantationDto = {
+export const deleteCropDto = {
 	params: t.Object({
 		id: t.String(),
 	}),
 };
 
-export const listPlantationsDto = {
+export const listCropDto = {
 	query: t.Object({
 		page: t.Optional(t.Numeric()),
 		limit: t.Optional(t.Numeric()),
 	}),
 };
 
-export const plantationResponseDto = {
-	response: t.Object(plantationObject),
+export const cropResponseDto = {
+	response: t.Object(cropObject),
 };
 
-export const listPlantationsResponseDto = {
+export const listcropResponseDto = {
 	response: t.Object({
-		plantations: t.Array(t.Object(plantationObject)),
+		crops: t.Array(t.Object(cropObject)),
 		total: t.Number(),
 		page: t.Number(),
 		totalPages: t.Number(),
 	}),
 };
 
-export const deletePlantationResponseDto = {
-	response: t.Union([t.Object(plantationObject), t.Null()]),
+export const deleteCropResponseDto = {
+	response: t.Union([t.Object(cropObject), t.Null()]),
 };

@@ -1,10 +1,10 @@
 import { Schema, model, Document, Types } from "mongoose";
 
-export interface IPlantation extends Document {
+export interface ICrop extends Document {
 	_id: Types.ObjectId;
 	user: Types.ObjectId;
 	area: string;
-	plantationType?: string;
+	cropType?: string;
 	geoLocation?: string;
 	daysSinceLastIrrigation?: string;
 	coordinates: {
@@ -13,7 +13,7 @@ export interface IPlantation extends Document {
 	};
 }
 
-const plantationSchema = new Schema<IPlantation>(
+const cropSchema = new Schema<ICrop>(
 	{
 		user: {
 			type: Schema.Types.ObjectId,
@@ -24,7 +24,7 @@ const plantationSchema = new Schema<IPlantation>(
 			type: String,
 			required: true,
 		},
-		plantationType: {
+		cropType: {
 			type: String,
 			required: false,
 		},
@@ -52,4 +52,4 @@ const plantationSchema = new Schema<IPlantation>(
 	},
 );
 
-export default model<IPlantation>("Plantation", plantationSchema);
+export default model<ICrop>("Crop", cropSchema);
