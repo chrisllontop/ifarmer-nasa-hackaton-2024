@@ -1,6 +1,7 @@
-import React, { useState, useRef, useCallback } from "react";
-import { GoogleMap, Marker, Autocomplete } from "@react-google-maps/api";
 import { Box, Button, Container, CssBaseline, TextField } from "@mui/material";
+import { Autocomplete, GoogleMap, Marker } from "@react-google-maps/api";
+import { useCallback, useRef, useState } from "react";
+import type React from "react";
 
 const mapContainerStyle = {
 	width: "100%",
@@ -33,7 +34,7 @@ const GoogleMapWithMarkerControl: React.FC<GoogleMapWithMarkerControlProps> = ({
 
 	const handlePlaceChanged = useCallback(() => {
 		const place = autocompleteRef.current?.getPlace();
-		if (place && place.geometry) {
+		if (place?.geometry) {
 			const location = place.geometry.location;
 			const newCenter = {
 				lat: location.lat(),

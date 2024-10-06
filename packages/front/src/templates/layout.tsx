@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
-import React from "react";
+import { type Libraries, LoadScript } from "@react-google-maps/api";
+import type React from "react";
 import Navbar from "../components/navbar/Navbar";
-import { LoadScript } from "@react-google-maps/api";
 
 interface LayoutProps {
 	children: React.ReactNode;
 }
 
-const libraries = ['places', 'geometry', 'drawing'];
+const libraries: Libraries = ['places', 'geometry', 'drawing'];
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (

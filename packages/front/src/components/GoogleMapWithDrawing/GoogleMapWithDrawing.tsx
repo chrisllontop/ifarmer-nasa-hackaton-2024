@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { GoogleMap, Marker } from '@react-google-maps/api';
 import { Box, Button, Container, CssBaseline, Fab, Typography } from '@mui/material';
+import { GoogleMap, Marker } from "@react-google-maps/api";
+import { useRef, useState } from "react";
+import type React from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../routes/paths';
@@ -33,8 +34,9 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
     if (polygonFeatureRef.current) {
       polygonFeatureRef.current.setMap(null);
     }
-    setArea(null);
-    setHasPolygon(false);
+
+			setArea(null);
+			setHasPolygon(false);
     setVertexMarkers([]);
   };
 
@@ -42,7 +44,7 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
 		let totalPerimeter = 0;
 		for (let i = 0; i < latLngArray.length; i++) {
 			const point1 = latLngArray[i];
-			const point2 = latLngArray[(i + 1) % latLngArray.length]; // Volver al primer punto
+			const point2 = latLngArray[(i + 1) % latLngArray.length];
 			totalPerimeter += google.maps.geometry.spherical.computeDistanceBetween(
 				point1,
 				point2,
@@ -102,8 +104,8 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <Container sx={{ flex: 1, overflowY: 'auto', padding: 0, position: 'relative' }}>
-        <Box 
-          sx={{ 
+        <Box
+          sx={{
             backgroundColor: 'white',
             position: 'absolute',
             top: '48px',
@@ -131,7 +133,7 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
             streetViewControl: false,
             mapTypeControl: false,
             clickableIcons: false,
-            drawingControl: false, // Desactivar controles de dibujo
+            drawingControl: false,
           }}
         >
           {vertexMarkers.map((marker, index) => (
