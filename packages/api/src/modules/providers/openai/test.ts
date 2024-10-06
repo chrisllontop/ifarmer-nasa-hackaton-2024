@@ -7,11 +7,11 @@ async function testGetIrrigationSchedule() {
 
   // Define the irrigation schedule request data
   const irrigationScheduleRequest: IrrigationScheduleRequest = {
-    coordinates: "40.7128,-74.0060", // Example coordinates (New York City)
+    coordinates: "Peru", // Example coordinates (New York City)
     area: 10.0, // Area in hectares
     days_since_last_irrigation: 3, // Days since last irrigation
     liters: 5000.0, // Liters used in the last irrigation
-    crop_type: "corn", // Type of crop
+    crop_type: "tunas", // Type of crop
     humidity_per_hour: [
       60, 65, 70, 75, 80, 85, 90, 95, 100, 85, 70, 60, 55, 50, 45, 40, 35, 30,
       25, 20, 15, 10, 5, 0,
