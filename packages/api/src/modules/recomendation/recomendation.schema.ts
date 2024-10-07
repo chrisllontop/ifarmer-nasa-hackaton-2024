@@ -4,13 +4,11 @@ import type { Static } from "elysia";
 
 import type { RecomendationDto } from "./recomendation.dto";
 
-export type RecomendationDtoType = WithMetadata<
-	Static<typeof RecomendationDto>
->;
+export type RecomendationDtoType = WithMetadata<Static<typeof RecomendationDto>>;
 
 const schema = new Schema<RecomendationDtoType>(
 	{
-		user: {
+    user: {
 			type: String,
 			ref: "user",
 			required: true,
