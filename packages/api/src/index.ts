@@ -40,7 +40,7 @@ const app = new Elysia()
 			.use(authController)
 			.use(weatherController)
 			.use(cropController)
-			.use(recomendationController)
+			.use(recomendationController),
 	)
 	.listen(PORT, (app) => {
 		console.log(`🦊 Elysia is running at ${app?.hostname}:${PORT}`);
