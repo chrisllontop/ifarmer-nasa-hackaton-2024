@@ -19,7 +19,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import cloudySnowing from "../assets/cloud-icons/cloudy-snowing.svg";
-import rainy from "../assets/cloud-icons/Rainy.svg";
+import rainy from "../assets/cloud-icons/rainy.svg";
 
 const Crop: React.FC = () => {
 	const [selectedDay, setSelectedDay] = useState("today");
