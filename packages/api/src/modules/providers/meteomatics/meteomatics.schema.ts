@@ -9,7 +9,7 @@ export enum PARAMS {
 }
 
 export enum TEMP_UNITS {
-  CELSIUS = 'C',
-  FARENHEIT = 'F',
-  KELVIN = 'K'
+	CELSIUS = "C",
+	FARENHEIT = "F",
+	KELVIN = "K",
 }

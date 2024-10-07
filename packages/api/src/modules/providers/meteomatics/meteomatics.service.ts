@@ -1,6 +1,11 @@
-import { FORMATS, type Coordinates, type DateRange, type TimeLocation } from '../../../config/common.interfaces';
-import { PARAMS, TEMP_UNITS } from './meteomatics.schema';
-import dayjs from 'dayjs';
+import {
+	FORMATS,
+	type Coordinates,
+	type DateRange,
+	type TimeLocation,
+} from "../../../config/common.interfaces";
+import { PARAMS, TEMP_UNITS } from "./meteomatics.schema";
+import dayjs from "dayjs";
 
 export class MeteomaticsService {
 	public dates: DateRange = { start: new Date(), end: new Date() };

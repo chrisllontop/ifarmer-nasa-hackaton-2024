@@ -1,3 +1,4 @@
+import { OpenMeteoService } from "../openmeteo/open-meteo.service";
 import type { IrrigationScheduleRequest } from "./models";
 import { LLM } from "./openai.provider";
 
@@ -642,6 +643,10 @@ const jsonForEvo = {
 async function testGetIrrigationSchedule() {
 	// Create an instance of the LLM class
 	const llm = new LLM();
+
+	const mateo = new OpenMeteoService({ lon: -77.0428, lat: -12.0464 });
+	const a = await mateo.getElevation();
+	console.log(a);
 
 	const evapotranspiration = await llm.getEvapotranspiration(
 		JSON.stringify(jsonForEvo),

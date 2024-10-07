@@ -1,12 +1,19 @@
 import type { Model, Types } from "mongoose";
 import type { WithMetadata } from "../shared/general.dto.ts";
 import Crop, { type CropDtoType } from "./crop.schema.ts";
+import { LLM } from "../providers/openai/openai.provider.ts";
+import type {
+	IrrigationScheduleRequest,
+	IrrigationScheduleResponse,
+} from "../providers/openai/models.ts";
 
 class CropService {
 	private readonly model: Model<CropDtoType>;
+	private llm: LLM;
 
 	constructor() {
 		this.model = Crop;
+		this.llm = new LLM();
 	}
 
 	async create(userId: string, cropData: Partial<CropDtoType>) {
@@ -109,6 +116,70 @@ class CropService {
 				throw new Error("An unknown error occurred while listing crops");
 			}
 		}
+	}
+
+	// New method to get irrigation schedule for a specific crop
+	async getIrrigationScheduleForCrop(
+		userId: string,
+		cropId: string,
+	): Promise<IrrigationScheduleResponse> {
+		try {
+			// Retrieve the crop using Mongoose
+			const crop = await this.model
+				.findOne({ _id: cropId, user: userId })
+				.exec();
+			if (!crop) {
+				throw new Error("Crop not found");
+			}
+
+			// Prepare the IrrigationScheduleRequest
+			const irrigationRequest: IrrigationScheduleRequest = {
+				location: crop.geoLocation || "Unknown", // Use default or handle appropriately
+				area: parseFloat(crop.area), // Assuming area is stored as a string
+				days_since_last_irrigation: this.calculateDaysSince(
+					crop.lastIrrigationDate!,
+				),
+				liters: 1000, // Example value, adjust as needed or retrieve from crop data, I think we should sen this is the API?
+				crop_type: crop.cropType || "Unknown", // Handle unknowns
+				humidity_per_hour: this.getExampleHumidityData(), // Replace with actual data
+				temperature_per_hour: this.getExampleTemperatureData(), // Replace with actual data
+				evapotranspiration: "5", // Call the other llm fucntion to get this, but it need the json data
+			};
+
+			// Call getIrrigationSchedule
+			const irrigationSchedule =
+				await this.llm.getIrrigationSchedule(irrigationRequest);
+
+			// Return the irrigation schedule response
+			return irrigationSchedule;
+		} catch (error) {
+			console.error("An error occurred:", error);
+			throw error;
+		}
+	}
+
+	// Helper method to calculate days since last irrigation
+	private calculateDaysSince(lastIrrigationDate: string): number {
+		const lastDate = new Date(lastIrrigationDate);
+		const today = new Date();
+		const diffTime = Math.abs(today.getTime() - lastDate.getTime());
+		return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+	}
+
+	// Example method to get humidity data
+	private getExampleHumidityData(): number[] {
+		return [
+			60, 65, 70, 75, 80, 85, 90, 85, 80, 75, 70, 65, 60, 55, 50, 55, 60, 65,
+			70, 75, 80, 85, 90, 85,
+		];
+	}
+
+	// Example method to get temperature data
+	private getExampleTemperatureData(): number[] {
+		return [
+			20, 21, 22, 23, 24, 25, 26, 25, 24, 23, 22, 21, 20, 19, 18, 19, 20, 21,
+			22, 23, 24, 25, 26, 25,
+		];
 	}
 }
 
