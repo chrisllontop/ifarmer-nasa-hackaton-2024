@@ -1,10 +1,11 @@
-import { Avatar, Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import styles from "./Card.module.css";
 
 interface CardImageProps {
 	description: string;
+	image: any;
 }
-export const CardImage = ({ description }: CardImageProps) => {
+export const CardImage = ({ description, image }: CardImageProps) => {
 	return (
 		<Card
 			sx={{
@@ -16,12 +17,12 @@ export const CardImage = ({ description }: CardImageProps) => {
 				justifyContent: "center",
 			}}
 		>
-			<Avatar variant="rounded">OP</Avatar>
-			{/*<CardMedia*/}
-			{/*	component="img"*/}
-			{/*	image="/static/images/cards/live-from-space.jpg"*/}
-			{/*	alt="Live from space"*/}
-			{/*/>*/}
+			<CardMedia
+				component="img"
+				image={image}
+				alt={image}
+				sx={{ width: "40px" }}
+			/>
 			<CardContent
 				sx={{ width: "80%", padding: "0" }}
 				className={styles.cardContent}

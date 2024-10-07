@@ -60,4 +60,19 @@ export class MeteomaticsService {
 		this.param = `${PARAMS.ELEVATION_TEMPERTURE}_${elevation}m:${TEMP_UNITS.CELSIUS}`;
 		return this.execute();
 	};
+
+	clearSolarSkyPrediction = async () => {
+		this.param = `${PARAMS.CLEAR_SKY_RADIATION}:W`;
+		return this.execute();
+	};
+
+	windSpeedPrediction = async (elevation: number) => {
+		this.param = `${PARAMS.WIND_SPEED}_${elevation}m:kmh`;
+		return this.execute();
+	};
+
+	pressurePrediction = async (elevation: number) => {
+		this.param = `${PARAMS.PROB_PRESSURE}_${elevation}m:hPa`;
+		return this.execute();
+	};
 }

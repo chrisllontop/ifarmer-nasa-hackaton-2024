@@ -28,12 +28,37 @@ export const weatherController = (app: Elysia) =>
 					});
 					return await weather.temperaturePrediction(elevation);
 				})
-				.post("/general", async ({ body: { coordinates, dates } }) => {
+				.post("/radiation", async ({ body: { coordinates, dates } }) => {
+					const weather = new MeteomaticsService({
+						coordinates,
+						dates,
+					});
+					return await weather.clearSolarSkyPrediction();
+				})
+				.post("/wind", async ({ body: { coordinates, dates } }) => {
+					const openMeteoService = new OpenMeteoService(coordinates);
+					const elevation = await openMeteoService.getElevation();
+					const weather = new MeteomaticsService({
+						coordinates,
+						dates,
+					});
+					return await weather.windSpeedPrediction(elevation);
+				})
+				.post("/pressure", async ({ body: { coordinates, dates } }) => {
+					const openMeteoService = new OpenMeteoService(coordinates);
+					const elevation = await openMeteoService.getElevation();
+					const weather = new MeteomaticsService({
+						coordinates,
+						dates,
+					});
+					return await weather.pressurePrediction(elevation);
+				})
+				.post("/historical", async ({ body: { coordinates, dates } }) => {
 					const powerNasaService = new PowerNasaService({
 						coordinates,
 						dates,
 					});
-					return await powerNasaService.getWeatherParams();
+					return await powerNasaService.getHistorical();
 				}),
 		),
 	);

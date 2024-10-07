@@ -40,3 +40,15 @@ export const updateCrop = async (body: UpdateCropBody) => {
 	if (data) return data;
 	throw error.value;
 };
+
+export const getCrops = async () => {
+	const authToken = localStorage.getItem("access_token");
+
+	const { data, error } = await client.api.crops.get({
+		headers: {
+			Authorization: `Bearer ${authToken}`,
+		},
+	});
+	if (data) return data;
+	throw error.value;
+};

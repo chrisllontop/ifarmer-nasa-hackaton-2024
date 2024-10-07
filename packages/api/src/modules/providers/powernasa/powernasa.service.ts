@@ -22,11 +22,10 @@ export class PowerNasaService {
 		const coords = `latitude=${this.coodinates.lat}&longitude=${this.coodinates.lon}`;
 		const format = `format=${FORMATS.JSON}`;
 		const url = `${this.baseUrl}/application/indicators/point?${dates}&${coords}&${format}`;
-		console.log(url);
 		return fetch(url, { headers });
 	};
 
-	getWeatherParams = () => {
+	getHistorical = () => {
 		return this.execute();
 	};
 }

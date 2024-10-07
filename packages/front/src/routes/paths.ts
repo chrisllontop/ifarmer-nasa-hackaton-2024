@@ -1,6 +1,6 @@
 export const paths = {
 	login: "/login",
-	initialStep: "/initial-step",
+	initialStep: "/get-started",
 	onboarding: "/onboarding",
 	crops: "/crops",
 	alerts: "/alerts",
