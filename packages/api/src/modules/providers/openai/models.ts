@@ -13,14 +13,14 @@ export interface IrrigationResponse {
 
 // Define the structure for irrigation schedule request
 export interface IrrigationScheduleRequest {
-	coordinates: string;
+	location: string; //Peru,ecuador, etc
 	area: number; // hectares
 	days_since_last_irrigation: number;
 	liters: number;
 	crop_type: string;
 	humidity_per_hour: number[]; // array of hourly humidity percentages
 	temperature_per_hour: number[]; // array of hourly temperatures in degrees Celsius
-	evapotranspiration: number; // mm/day
+	evapotranspiration: string;
 }
 
 // Define the structure for time range in the irrigation schedule

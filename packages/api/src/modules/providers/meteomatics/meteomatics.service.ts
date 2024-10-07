@@ -1,6 +1,11 @@
-import { FORMATS, type Coordinates, type DateRange, type TimeLocation } from '../../../config/common.interfaces';
-import { PARAMS, TEMP_UNITS } from './meteomatics.schema';
-import dayjs from 'dayjs';
+import {
+	FORMATS,
+	type Coordinates,
+	type DateRange,
+	type TimeLocation,
+} from "../../../config/common.interfaces";
+import { PARAMS, TEMP_UNITS } from "./meteomatics.schema";
+import dayjs from "dayjs";
 
 export class MeteomaticsService {
 	public dates: DateRange = { start: new Date(), end: new Date() };
@@ -56,17 +61,17 @@ export class MeteomaticsService {
 		return this.execute();
 	};
 
-  clearSolarSkyPrediction = async () => {
+	clearSolarSkyPrediction = async () => {
 		this.param = `${PARAMS.CLEAR_SKY_RADIATION}:W`;
 		return this.execute();
 	};
 
-  windSpeedPrediction = async (elevation: number) => {
+	windSpeedPrediction = async (elevation: number) => {
 		this.param = `${PARAMS.WIND_SPEED}_${elevation}m:kmh`;
 		return this.execute();
 	};
 
-  pressurePrediction = async (elevation: number) => {
+	pressurePrediction = async (elevation: number) => {
 		this.param = `${PARAMS.PROB_PRESSURE}_${elevation}m:hPa`;
 		return this.execute();
 	};
