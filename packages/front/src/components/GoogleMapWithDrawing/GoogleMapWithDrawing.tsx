@@ -32,6 +32,8 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
 	const polygonFeatureRef = useRef<google.maps.Polygon | null>(null);
 	const [perimeter, setPerimeter] = useState<number | null>(null);
 
+	const geocoder = new google.maps.Geocoder();
+
 	const { setActiveStep } = useProgressStepper();
 
 	const { addCrop } = useAddCrop();
@@ -108,17 +110,51 @@ const PolygonDrawer: React.FC<PolygonDrawerProps> = ({ center }) => {
 			},
 		);
 
-		setDrawingMode(true); // Se activa el modo de dibujo
+		setDrawingMode(true);
+	};
+
+	const getCityFromCoordinates = async (latLng: google.maps.LatLng) => {
+		return new Promise<string | null>((resolve, reject) => {
+			geocoder.geocode({ location: latLng }, (results, status) => {
+				if (status === google.maps.GeocoderStatus.OK && results[0]) {
+					const addressComponents = results[0].address_components;
+					const cityComponent = addressComponents.find((component) =>
+						component.types.includes("locality"),
+					);
+					const countryComponent = addressComponents.find((component) =>
+						component.types.includes("country"),
+					);
+					if (cityComponent && countryComponent) {
+						resolve(`${cityComponent.long_name} ${countryComponent.long_name}`);
+					} else {
+						resolve(null);
+					}
+				} else {
+					reject("Geocoding failed");
+				}
+			});
+		});
 	};
 
 	const submitCropInformation = async () => {
-		await addCrop.mutateAsync({
-			area: area ? area.toString() : "",
-			coordinates: {
-				lat: center.lat(),
-				lon: center.lng(),
-			},
-		});
+		try {
+			const firstPoint = vertexMarkers[0];
+			const cityFromAPI = firstPoint
+				? await getCityFromCoordinates(firstPoint)
+				: null;
+			console.log({ cityFromAPI });
+
+			await addCrop.mutateAsync({
+				area: area ? area.toString() : "",
+				coordinates: {
+					lat: center.lat(),
+					lon: center.lng(),
+				},
+				location: cityFromAPI ?? "Unknown",
+			});
+		} catch (error) {
+			console.error("Error getting city:", error);
+		}
 	};
 
 	useEffect(() => {
