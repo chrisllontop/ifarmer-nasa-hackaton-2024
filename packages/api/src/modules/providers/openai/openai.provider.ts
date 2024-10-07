@@ -110,11 +110,10 @@ Current date: ${currentDate}
 Input data:
 -  Geographic location: ${info.location}
 -  Area of the crop: ${info.area} hectares
--  Last irrigation: ${info.days_since_last_irrigation} days ago, ${info.liters} liters
--  Type of crop: ${info.crop_type}
+-  Last irrigation: ${info.lastIrrigationDate} days ago, ${info.waterAmount}
+-  Type of crop: ${info.cropType}
 -  Weather data for the next 5 days (hourly):
-  - Humidity: ${info.humidity_per_hour.join(", ")}
-  - Temperature: ${info.temperature_per_hour.join(", ")}
+  - Humidity per each date and hour: ${info.humidityPerHour.join(", ")}
 -  Approximate daily evapotranspiration: ${info.evapotranspiration} mm/day
 
 Analyze this information and determine the best 5 days for irrigation, you can make predictions base on that, you can deside the best 5 dates in a period of 1  month. Consider factors such as optimal humidity and temperature conditions for the crop type. Return the response in markdown JSON format as shown below:
@@ -132,7 +131,7 @@ Analyze this information and determine the best 5 days for irrigation, you can m
         "endtime": "20:00"
       }
     ],
-    "liters": "xxx liters" // Amount of liters to use
+    "waterAmount": "xxx" // Amount of water to use
   },
   "<Selected date>": {
     "time": [
@@ -141,7 +140,7 @@ Analyze this information and determine the best 5 days for irrigation, you can m
         "endtime": "08:00"
       }
     ],
-    "liters": "xxx liters" // Amount of liters to use
+    "waterAmount": "xxx" // Amount of water to use
   },
   // Continue similarly for the next dates
 }
@@ -159,9 +158,7 @@ Remember just answer with the markdown JSON blob.`,
 				throw new Error("Failed to extract JSON schedule");
 			}
 
-			const schedule: IrrigationScheduleResponse = JSON.parse(jsonMatch[1]);
-
-			return schedule;
+			return JSON.parse(jsonMatch[1]);
 		} catch (error) {
 			console.error("An error occurred:", error);
 			throw error; // Re-throw the error for the caller to handle
@@ -170,14 +167,13 @@ Remember just answer with the markdown JSON blob.`,
 
 	async getEvapotranspiration(apiJsonResponse: string): Promise<string> {
 		try {
-			const evotranspirationCompletion =
-				await this.openai.chat.completions.create({
-					model: "gpt-4o-mini",
-					temperature: 0.0,
-					messages: [
-						{
-							role: "user",
-							content: `
+			const evapotranspiration = await this.openai.chat.completions.create({
+				model: "gpt-4o-mini",
+				temperature: 0.0,
+				messages: [
+					{
+						role: "user",
+						content: `
 Json:${apiJsonResponse}
 
 
@@ -185,14 +181,11 @@ With this data give me an aproximation of the evapotranspiration, just give me t
 
 Numerical Response:
 `,
-						},
-					],
-				});
+					},
+				],
+			});
 
-			const response =
-				evotranspirationCompletion.choices[0]?.message?.content?.trim() || "";
-
-			return response;
+			return evapotranspiration.choices[0]?.message?.content?.trim() || "";
 		} catch (error) {
 			console.error("An error occurred:", error);
 			throw error; // Re-throw the error for the caller to handle

@@ -1,11 +1,13 @@
 import type { Model, Types } from "mongoose";
-import type { WithMetadata } from "../shared/general.dto.ts";
-import Crop, { type CropDtoType } from "./crop.schema.ts";
-import { LLM } from "../providers/openai/openai.provider.ts";
+import { MeteomaticsService } from "../providers/meteomatics/meteomatics.service.ts";
 import type {
 	IrrigationScheduleRequest,
 	IrrigationScheduleResponse,
 } from "../providers/openai/models.ts";
+import { LLM } from "../providers/openai/openai.provider.ts";
+import { OpenMeteoService } from "../providers/openmeteo/open-meteo.service.ts";
+import type { WithMetadata } from "../shared/general.dto.ts";
+import Crop, { type CropDtoType } from "./crop.schema.ts";
 
 class CropService {
 	private readonly model: Model<CropDtoType>;
@@ -124,7 +126,6 @@ class CropService {
 		cropId: string,
 	): Promise<IrrigationScheduleResponse> {
 		try {
-			// Retrieve the crop using Mongoose
 			const crop = await this.model
 				.findOne({ _id: cropId, user: userId })
 				.exec();
@@ -134,52 +135,66 @@ class CropService {
 
 			// Prepare the IrrigationScheduleRequest
 			const irrigationRequest: IrrigationScheduleRequest = {
-				location: crop.geoLocation || "Unknown", // Use default or handle appropriately
-				area: parseFloat(crop.area), // Assuming area is stored as a string
-				days_since_last_irrigation: this.calculateDaysSince(
-					crop.lastIrrigationDate!,
+				location: crop.geoLocation || "Unknown",
+				area: crop.area,
+				lastIrrigationDate: crop.lastIrrigationDate,
+				waterAmount: crop.waterAmount,
+				cropType: crop.cropType || "Unknown",
+				humidityPerHour: await this.getHumidityData(crop),
+				evapotranspiration: await this.llm.getEvapotranspiration(
+					await this.getEvapotranspirationData(crop),
 				),
-				liters: 1000, // Example value, adjust as needed or retrieve from crop data, I think we should sen this is the API?
-				crop_type: crop.cropType || "Unknown", // Handle unknowns
-				humidity_per_hour: this.getExampleHumidityData(), // Replace with actual data
-				temperature_per_hour: this.getExampleTemperatureData(), // Replace with actual data
-				evapotranspiration: "5", // Call the other llm fucntion to get this, but it need the json data
 			};
 
 			// Call getIrrigationSchedule
-			const irrigationSchedule =
-				await this.llm.getIrrigationSchedule(irrigationRequest);
-
 			// Return the irrigation schedule response
-			return irrigationSchedule;
+			return await this.llm.getIrrigationSchedule(irrigationRequest);
 		} catch (error) {
 			console.error("An error occurred:", error);
 			throw error;
 		}
 	}
 
-	// Helper method to calculate days since last irrigation
-	private calculateDaysSince(lastIrrigationDate: string): number {
-		const lastDate = new Date(lastIrrigationDate);
-		const today = new Date();
-		const diffTime = Math.abs(today.getTime() - lastDate.getTime());
-		return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-	}
-
 	// Example method to get humidity data
-	private getExampleHumidityData(): number[] {
-		return [
-			60, 65, 70, 75, 80, 85, 90, 85, 80, 75, 70, 65, 60, 55, 50, 55, 60, 65,
-			70, 75, 80, 85, 90, 85,
-		];
+	private async getHumidityData(crop: CropDtoType): Promise<string[]> {
+		const meteomaticsService = new MeteomaticsService({
+			dates: {
+				start: new Date("2024-10-06"),
+				end: new Date("2024-10-11"),
+			},
+			coordinates: crop.coordinates,
+		});
+
+		const openMeteoService = new OpenMeteoService(crop.coordinates);
+
+		const humidityRangeResponse = await meteomaticsService.humidityPrediction(
+			await openMeteoService.getElevation(),
+		);
+
+		// @ts-ignore
+		const humidityRangeObj = humidityRangeResponse.data[0].coodinates[0].dates;
+		return humidityRangeObj.map(
+			(data: { date: Date; value: number }) =>
+				`Date: ${data.date} (Value: ${data.value})`,
+		);
 	}
 
-	// Example method to get temperature data
-	private getExampleTemperatureData(): number[] {
-		return [
-			20, 21, 22, 23, 24, 25, 26, 25, 24, 23, 22, 21, 20, 19, 18, 19, 20, 21,
-			22, 23, 24, 25, 26, 25,
-		];
+	private async getEvapotranspirationData(crop: CropDtoType): Promise<string> {
+		const meteomaticsService = new MeteomaticsService({
+			dates: {
+				start: new Date("2024-10-06"),
+				end: new Date("2024-10-11"),
+			},
+			coordinates: crop.coordinates,
+		});
+
+		const openMeteoService = new OpenMeteoService(crop.coordinates);
+
+		const evapotranspirationResponse = await meteomaticsService.all(
+			await openMeteoService.getElevation(),
+		);
+
+		return JSON.stringify(evapotranspirationResponse);
 	}
 }
 

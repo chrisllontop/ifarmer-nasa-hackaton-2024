@@ -1,10 +1,10 @@
-import { Elysia } from "elysia";
+import type Elysia from "elysia";
 
 import { authenticator } from "../auth/auth.validator";
 import { MeteomaticsService } from "../providers/meteomatics/meteomatics.service";
-import { weatherDto } from "./weather.dto";
 import { OpenMeteoService } from "../providers/openmeteo/open-meteo.service";
 import { PowerNasaService } from "../providers/powernasa/powernasa.service";
+import { weatherDto } from "./weather.dto";
 
 export const weatherController = (app: Elysia) =>
 	app.group("/weather", (app) =>

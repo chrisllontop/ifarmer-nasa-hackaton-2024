@@ -1,18 +1,18 @@
+import dayjs from "dayjs";
 import {
-	FORMATS,
 	type Coordinates,
 	type DateRange,
+	FORMATS,
 	type TimeLocation,
 } from "../../../config/common.interfaces";
 import { PARAMS, TEMP_UNITS } from "./meteomatics.schema";
-import dayjs from "dayjs";
 
 export class MeteomaticsService {
 	public dates: DateRange = { start: new Date(), end: new Date() };
 	public coodinates: Coordinates = { lat: 0, lon: 0 };
-	public frecuency: string = "PT1H";
+	public frecuency = "PT1H";
 
-	private param: string = "";
+	private param = "";
 	private username?: string;
 	private password?: string;
 	private baseUrl = "https://api.meteomatics.com";
@@ -33,7 +33,7 @@ export class MeteomaticsService {
 	}
 
 	private execute = () => {
-		let headers = new Headers();
+		const headers = new Headers();
 		headers.set(
 			"Authorization",
 			"Basic " +
@@ -74,5 +74,17 @@ export class MeteomaticsService {
 	pressurePrediction = async (elevation: number) => {
 		this.param = `${PARAMS.PROB_PRESSURE}_${elevation}m:hPa`;
 		return this.execute();
+	};
+
+	all = async (elevation: number) => {
+		const allPromises = [
+			this.snowProbability(),
+			this.humidityPrediction(elevation),
+			this.temperaturePrediction(elevation),
+			this.clearSolarSkyPrediction(),
+			this.windSpeedPrediction(elevation),
+			this.pressurePrediction(elevation),
+		];
+		return Promise.all(allPromises);
 	};
 }
