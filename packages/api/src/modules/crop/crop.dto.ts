@@ -4,6 +4,7 @@ export const CropDto = t.Object({
 	id: t.String(),
 	user: t.String(),
 	area: t.String(),
+	location: t.Optional(t.String()),
 	cropType: t.Optional(t.String()),
 	waterSources: t.Optional(t.Array(t.String())),
 	waterAmount: t.Optional(t.String()),
