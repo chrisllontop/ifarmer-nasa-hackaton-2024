@@ -44,22 +44,15 @@ const Login = () => {
 				mt: 4,
 			}}
 		>
-			<Box>
-				<Typography
-					variant="h5"
-					component="h1"
-					textAlign="left"
-					gutterBottom={false}
-				>
-					Log in
+			<Box sx={{ mb: 4 }}>
+				<img src="/logo.png" alt="ifarmer" style={{ width: "160px" }} />
+				<Typography>
+					Elevating the irrigation experience for all farmers
 				</Typography>
-				<Typography
-					variant="subtitle1"
-					component="p"
-					textAlign="left"
-					sx={{ mb: "12px", fontSize: "14px" }}
-				>
-					Get started for free
+			</Box>
+			<Box>
+				<Typography variant="h5" component="h1" textAlign="left" sx={{ mb: 4 }}>
+					Log in
 				</Typography>
 			</Box>
 

@@ -12,7 +12,7 @@ import { paths } from "./paths";
 export const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <Navigate to={paths.onboarding} replace />,
+		element: <Navigate to={paths.initialStep} replace />,
 	},
 	{
 		path: paths.login,

@@ -7,23 +7,39 @@ export const SplashScreen = () => {
 	const navigate = useNavigate();
 
 	return (
-		<Box>
-			<Box sx={{ width: "350px", margin: "0 auto", height: "85vh" }}>
+		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+			<Box>
+				<img
+					src="/logo-if.png"
+					alt="ifarmer"
+					style={{ margin: "24px 0 56px" }}
+				/>
+			</Box>
+			<Box sx={{ width: "350px", margin: "0 auto", flex: 1 }}>
 				<Typography
-					variant="h5"
+					variant="h6"
 					component="h1"
 					textAlign="left"
-					sx={{ marginBottom: "48px" }}
+					sx={{ marginBottom: "24px" }}
 				>
-					First of all
+					Before starting, here are some tips:
 				</Typography>
-				<CardImage description="Remember to introduce precise information to get a better answer" />
-				<CardImage description="The result obtained is tailored to your specific needs using AI" />
-				<CardImage description="Track your real time reports  on water management and recommendation" />
+				<CardImage
+					description="Remember to introduce precise information to get a better answer"
+					image="/plant.svg"
+				/>
+				<CardImage
+					description="The result obtained is tailored to your specific needs using AI"
+					image="/vegetables.svg"
+				/>
+				<CardImage
+					description="Track your real time reports  on water management and recommendation"
+					image="/schedule.svg"
+				/>
 			</Box>
 			<Button
 				variant="contained"
-				sx={{ width: "350px", margin: "0 auto" }}
+				sx={{ width: "350px", margin: "0 auto 12px" }}
 				onClick={() => navigate(paths.onboarding)}
 			>
 				Let's start
