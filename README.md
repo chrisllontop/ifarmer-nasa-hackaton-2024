@@ -16,9 +16,11 @@ Once all this information is processed by our system, a customized report is gen
 - **Nearby Alerts**: Notifications about potential external factors that may affect the crops.
 - **Additional Crop Suggestions**: Recommendations for other types of crops that are well-suited for the selected area.
 
-## Demo
+## Presentation
+Watch the video presentation: https://www.youtube.com/watch?v=BrDx7sa6phU
 
-Visit our demo on https://ifarmer.site
+## Demo
+Try the demo: https://ifarmer.site
 - user: nasa@nasa.com
 - pass: 1234
 
