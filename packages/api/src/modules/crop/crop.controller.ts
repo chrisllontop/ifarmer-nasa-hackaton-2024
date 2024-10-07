@@ -44,6 +44,21 @@ export const cropController = (app: Elysia) =>
 					params: CropParamsDto,
 				},
 			)
+			.get(
+				"/:id/irrigation-schedule",
+				async ({ params, user }) => {
+					const schedule = await cropService.getIrrigationScheduleForCrop(
+						user._id.toString(),
+						params.id,
+					);
+					if (!schedule)
+						throw new Error("Irrigation schedule could not be generated");
+					return schedule;
+				},
+				{
+					params: CropParamsDto,
+				},
+			)
 			.guard(createCropDto, (app) =>
 				app.post("/", async ({ user, body }) => {
 					return await cropService.create(user._id.toString(), body);

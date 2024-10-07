@@ -22,6 +22,7 @@ export class LLM {
 			// First call: Get irrigation method
 			const methodCompletion = await this.openai.chat.completions.create({
 				model: "gpt-4o-mini",
+				temperature: 0.0,
 				messages: [
 					{
 						role: "user",
@@ -98,6 +99,7 @@ Geographic location: ${info.geo}`,
 
 			const scheduleCompletion = await this.openai.chat.completions.create({
 				model: "gpt-4o-mini",
+				temperature: 0.0,
 				messages: [
 					{
 						role: "user",
@@ -106,7 +108,7 @@ Geographic location: ${info.geo}`,
 Current date: ${currentDate}
 
 Input data:
--  Geographic location: ${info.coordinates}
+-  Geographic location: ${info.location}
 -  Area of the crop: ${info.area} hectares
 -  Last irrigation: ${info.days_since_last_irrigation} days ago, ${info.liters} liters
 -  Type of crop: ${info.crop_type}
@@ -160,6 +162,37 @@ Remember just answer with the markdown JSON blob.`,
 			const schedule: IrrigationScheduleResponse = JSON.parse(jsonMatch[1]);
 
 			return schedule;
+		} catch (error) {
+			console.error("An error occurred:", error);
+			throw error; // Re-throw the error for the caller to handle
+		}
+	}
+
+	async getEvapotranspiration(apiJsonResponse: string): Promise<string> {
+		try {
+			const evotranspirationCompletion =
+				await this.openai.chat.completions.create({
+					model: "gpt-4o-mini",
+					temperature: 0.0,
+					messages: [
+						{
+							role: "user",
+							content: `
+Json:${apiJsonResponse}
+
+
+With this data give me an aproximation of the evapotranspiration, just give me the numerical output, nothing more
+
+Numerical Response:
+`,
+						},
+					],
+				});
+
+			const response =
+				evotranspirationCompletion.choices[0]?.message?.content?.trim() || "";
+
+			return response;
 		} catch (error) {
 			console.error("An error occurred:", error);
 			throw error; // Re-throw the error for the caller to handle
