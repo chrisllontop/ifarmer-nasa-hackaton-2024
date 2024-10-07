@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import { addCrop, updateCrop } from "../modules/crops.ts";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { addCrop, getCrops, updateCrop } from "../modules/crops.ts";
 
 export const useAddCrop = () => {
 	return {
@@ -20,4 +20,11 @@ export const useUpdateCrop = () => {
 			mutationFn: updateCrop,
 		}),
 	};
+};
+
+export const useGetCrops = () => {
+	return useQuery({
+		queryKey: ["crops"],
+		queryFn: () => getCrops(),
+	});
 };
