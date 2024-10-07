@@ -1,7 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-import { login } from "../modules/auth.ts";
+import { login, user } from "../modules/auth.ts";
 import { paths } from "../routes/paths.ts";
 
 export const useLogin = () => {
@@ -14,5 +14,12 @@ export const useLogin = () => {
 				navigate(paths.onboarding);
 			}
 		},
+	});
+};
+
+export const useGetUser = () => {
+	return useQuery({
+		queryKey: ["user"],
+		queryFn: () => user(),
 	});
 };

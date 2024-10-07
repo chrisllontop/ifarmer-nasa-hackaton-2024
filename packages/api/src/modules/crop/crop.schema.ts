@@ -28,6 +28,14 @@ const cropSchema = new Schema<CropDtoType>(
 			type: String,
 			required: false,
 		},
+		waterSources: {
+			type: [String],
+			required: false,
+		},
+		location: {
+			type: String,
+			required: false,
+		},
 		coordinates: {
 			lat: {
 				type: Number,

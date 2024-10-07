@@ -6,6 +6,7 @@ import "./database/database.setup";
 
 import { authController } from "./modules/auth/auth.controller";
 import { cropController } from "./modules/crop/crop.controller";
+import { recommendationController } from "./modules/recomendation/recommendationController.ts";
 import { usersController } from "./modules/user/user.controller";
 import { weatherController } from "./modules/weather/weather.controller";
 import { recomendationController } from "./modules/recomendation/recomendation.controller";
