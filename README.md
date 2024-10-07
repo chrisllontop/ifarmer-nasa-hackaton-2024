@@ -16,8 +16,13 @@ Once all this information is processed by our system, a customized report is gen
 - **Nearby Alerts**: Notifications about potential external factors that may affect the crops.
 - **Additional Crop Suggestions**: Recommendations for other types of crops that are well-suited for the selected area.
 
+## Demo
 
-## Prerequisites
+Visit our demo on https://ifarmer.site
+- user: nasa@nasa.com
+- pass: 1234
+
+## Try on your computer - prerequisites
 Create an account a request an api for:
 - AI: https://openai.com/index/openai-api/
 - Weather: https://www.meteomatics.com/en/sign-up-weather-api-test-account/
@@ -73,6 +78,9 @@ Open your url and port configured on the front `.env`
 
 ## Create an test user
 On mongodb create the User collection with the following register using compass: https://www.mongodb.com/products/tools/compass
+
+the password is encrypted with `bcrypt`
+
 ```json
 {
   "_id": {
