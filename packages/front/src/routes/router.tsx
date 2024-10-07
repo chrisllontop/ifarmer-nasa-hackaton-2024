@@ -1,13 +1,14 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import { ProgressStepperProvider } from "../context/ProgressBar.tsx";
 import AuthGuard from "../hooks/auth-guard.tsx";
+import Layout from "../templates/layout.tsx";
+import { paths } from "./paths";
+import { Onboarding } from "../pages/Onboarding.tsx";
+import { SplashScreen } from "../pages/SplashScreen.tsx";
+import Crop from "../pages/Crop.tsx";
 import Alerts from "../pages/Alerts.tsx";
 import Home from "../pages/Home.tsx";
 import Login from "../pages/Login.tsx";
-import { Onboarding } from "../pages/Onboarding.tsx";
-import { SplashScreen } from "../pages/SplashScreen.tsx";
-import Layout from "../templates/layout.tsx";
-import { paths } from "./paths";
 
 export const router = createBrowserRouter([
 	{
@@ -52,6 +53,16 @@ export const router = createBrowserRouter([
 			<AuthGuard>
 				<Layout>
 					<Alerts />
+				</Layout>
+			</AuthGuard>
+		),
+	},
+	{
+		path: "/crops/:cropId",
+		element: (
+			<AuthGuard>
+				<Layout>
+					<Crop />
 				</Layout>
 			</AuthGuard>
 		),
