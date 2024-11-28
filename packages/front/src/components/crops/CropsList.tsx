@@ -9,9 +9,12 @@ import {
 	Typography,
 } from "@mui/material";
 import { useGetCrops } from "../../hooks/use-crops.tsx";
+import { useNavigate } from "react-router-dom";
 
 export const CropsList = () => {
 	const { data: crops, isPending } = useGetCrops();
+
+	const navigate = useNavigate();
 
 	return (
 		<Box>
@@ -22,6 +25,7 @@ export const CropsList = () => {
 					{crops?.data?.map((crop) => (
 						<Box key={crop.id}>
 							<ListItem
+								onClick={() => navigate('/crops/1')}
 								secondaryAction={
 									<IconButton aria-label="details">
 										<MoreHorizIcon />
@@ -36,7 +40,7 @@ export const CropsList = () => {
 											sx={{ fontWeight: 400 }}
 										>
 											{crop.cropType}
-										</Typography>
+										</Typography>										
 									}
 									secondary={
 										<Typography
